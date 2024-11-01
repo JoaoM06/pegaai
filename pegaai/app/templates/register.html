@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #ffffff;
+        }
+
+        .container {
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 28px; /* Tamanho da fonte ajustado */
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .login-box {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-box h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #fff;
+            border: none;
+        }
+
+        .google-btn {
+            background-color: #ffffff;
+            color: #000;
+            border: 1px solid #ddd;
+        }
+
+        .facebook-btn {
+            background-color: #1877f2;
+            color: #fff;
+        }
+
+        .apple-btn {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .email-btn {
+            background-color: #ffffff;
+            color: #555;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .separator {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #888;
+        }
+
+        /* Botão de ação principal */
+        .main-btn {
+            background-color: #5FACF1;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-btn:hover {
+            background-color: #4a9bda;
+        }
+
+        .social-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Seja bem vindo!</h1>
+
+        <div class="login-box">
+            <h2>Vamos começar</h2>
+
+            <button class="social-btn google-btn">
+                <img src="google-icon.png" alt="Google Icon"> Continuar com o Google
+            </button>
+            <button class="social-btn facebook-btn">
+                <img src="facebook-icon.png" alt="Facebook Icon"> Continuar com o Facebook
+            </button>
+            <button class="social-btn apple-btn">
+                <img src="apple-icon.png" alt="Apple Icon"> Continuar com a Apple
+            </button>
+
+            <div class="separator">Ou</div>
+
+            <button class="social-btn email-btn">
+                <img src="email-icon.png" alt="Email Icon"> Registrar-se com o e-mail
+            </button>
+        </div>
+
+        <button class="main-btn">ENTRAR</button>
+    </div>
+</body>
+</html>
+
