@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Destaques</title>
+    <title>Meus Pedidos</title>
     <style>
         /* Estilos gerais */
         body {
@@ -37,45 +37,36 @@
             outline: none;
         }
 
-        /* Títulos das seções */
-        .section-title {
+        /* Título da página */
+        .page-title {
             margin: 20px;
-            font-size: 18px;
+            font-size: 24px;
             font-weight: bold;
             color: #333;
         }
 
-        /* Cartão da barraca */
-        .stall-card {
+        /* Cartão do último pedido */
+        .order-card {
             margin: 0 20px 15px;
             padding: 15px;
             background-color: #f9f9f9;
             border-radius: 8px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
         }
 
-        .stall-card .stall-name {
+        .order-card .order-title {
             font-size: 18px;
             font-weight: bold;
             color: #333;
-            margin-bottom: 10px;
         }
 
-        .product-gallery {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 10px;
+        .order-card .order-info {
+            font-size: 14px;
+            color: #888;
+            margin-top: 5px;
         }
 
-        .product-gallery .product-image {
-            width: 100px;  /* Largura aumentada */
-            height: 100px; /* Altura aumentada */
-            background-color: #ddd;
-            border-radius: 8px;
-        }
-
-        .order-btn {
+        .refazer-btn {
             background-color: #5FACF1;
             color: #fff;
             font-size: 14px;
@@ -87,8 +78,15 @@
             margin-top: 10px;
         }
 
-        .order-btn:hover {
+        .refazer-btn:hover {
             background-color: #4a9bda;
+        }
+
+        /* Estrelas de avaliação */
+        .stars {
+            color: #FFD700;
+            font-size: 16px;
+            margin-top: 5px;
         }
 
         /* Rodapé com ícones de navegação */
@@ -118,38 +116,33 @@
         <input type="text" class="search-bar" placeholder="O que você deseja?">
     </header>
 
-    <!-- Seção "Em Alta" -->
-    <div class="section-title">Em Alta</div>
-    <div class="stall-card">
-        <div class="stall-name">Nome da barraca</div>
-        <div class="product-gallery">
-            <div class="product-image"></div>
-            <div class="product-image"></div>
-            <div class="product-image"></div>
-        </div>
-        <button class="order-btn">Fazer pedido</button>
+    <!-- Título da página -->
+    <div class="page-title">Meus Pedidos</div>
+
+    <!-- Último Pedido -->
+    <div class="order-card">
+        <div class="order-title">Seu ultimo pedido</div>
+        <div class="order-info">Informações do pedido</div>
+        <button class="refazer-btn">Refazer pedido</button>
     </div>
 
-    <div class="stall-card">
-        <div class="stall-name">Nome da barraca</div>
-        <div class="product-gallery">
-            <div class="product-image"></div>
-            <div class="product-image"></div>
-            <div class="product-image"></div>
-        </div>
-        <button class="order-btn">Fazer pedido</button>
+    <!-- Lista de pedidos anteriores -->
+    <div class="order-card">
+        <div class="order-title">Pedido 1</div>
+        <div class="order-info">Informações do pedido</div>
+        <div class="stars">★★★★★</div>
     </div>
 
-    <!-- Seção "Bem Avaliados" -->
-    <div class="section-title">Bem Avaliados</div>
-    <div class="stall-card">
-        <div class="stall-name">Nome da barraca</div>
-        <div class="product-gallery">
-            <div class="product-image"></div>
-            <div class="product-image"></div>
-            <div class="product-image"></div>
-        </div>
-        <button class="order-btn">Fazer pedido</button>
+    <div class="order-card">
+        <div class="order-title">Pedido 2</div>
+        <div class="order-info">Informações do pedido</div>
+        <div class="stars">★★★★☆</div>
+    </div>
+
+    <div class="order-card">
+        <div class="order-title">Pedido 3</div>
+        <div class="order-info">Informações do pedido</div>
+        <div class="stars">★★★☆☆</div>
     </div>
 
     <!-- Rodapé -->
