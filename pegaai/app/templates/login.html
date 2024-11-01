@@ -17,7 +17,7 @@
         .login-container {
             background-color: white;
             padding: 30px;
-            border-radius: 5px;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
         }
@@ -41,7 +41,7 @@
         button {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #5FACF1;
             color: white;
             border: none;
             border-radius: 5px;
@@ -56,8 +56,7 @@
     <div class="login-container">
         <h1>Bem vindo de volta!</h1>
         <h2>Entre na sua conta</h2>
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
+        <form method="POST">
             <input type="email" name="email" placeholder="E-mail" required>
             <input type="password" name="password" placeholder="Senha" required>
             <button type="submit">Entrar</button>
