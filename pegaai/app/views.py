@@ -17,6 +17,3 @@ def orders(request):
 
 def profile(request):
     return render(request, "profile.html")
-
-def header(request):
-    return render(request, "header.html")

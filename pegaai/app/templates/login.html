@@ -1,66 +1,26 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela de Login</title>
-    <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-        }
-        .login-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.2em;
-        }
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #5FACF1;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
 <body>
-    <div class="login-container">
-        <h1>Bem vindo de volta!</h1>
-        <h2>Entre na sua conta</h2>
-        <form method="POST">
-            <input type="email" name="email" placeholder="E-mail" required>
-            <input type="password" name="password" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
+
+    <div class="bg-gray-200 flex items-center justify-center h-screen">
+        <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
+            <h1 class="text-center text-xl font-semibold mb-4">Bem vindo de volta!</h1>
+            <h2 class="text-center text-lg mb-4">Entre na sua conta</h2>
+            <form method="POST">
+                <input type="email" name="email" placeholder="E-mail" required class="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300">
+                <input type="password" name="password" placeholder="Senha" required class="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300">
+                <button type="submit" class="w-full p-2 bg-primary text-white rounded-md hover:bg-blue-600 transition duration-200">Entrar</button>
+            </form>
+        </div>
     </div>
+
 </body>
 </html>

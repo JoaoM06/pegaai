@@ -1,158 +1,46 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Pedidos</title>
-    <style>
-        /* Estilos gerais */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #ffffff;
-        }
-
-        /* Cabeçalho com barra de busca */
-        .header {
-            background-color: #5FACF1;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #fff;
-        }
-
-        .menu-icon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .search-bar {
-            background-color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            padding: 10px;
-            width: 70%;
-            font-size: 14px;
-            outline: none;
-        }
-
-        /* Título da página */
-        .page-title {
-            margin: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Cartão do último pedido */
-        .order-card {
-            margin: 0 20px 15px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .order-card .order-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .order-card .order-info {
-            font-size: 14px;
-            color: #888;
-            margin-top: 5px;
-        }
-
-        .refazer-btn {
-            background-color: #5FACF1;
-            color: #fff;
-            font-size: 14px;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 15px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .refazer-btn:hover {
-            background-color: #4a9bda;
-        }
-
-        /* Estrelas de avaliação */
-        .stars {
-            color: #FFD700;
-            font-size: 16px;
-            margin-top: 5px;
-        }
-
-        /* Rodapé com ícones de navegação */
-        .footer {
-            background-color: #5FACF1;
-            padding: 10px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .footer-icon {
-            color: #ffffff;
-            font-size: 24px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
 </head>
 <body>
 
-    <!-- Cabeçalho -->
-    <header class="header">
-        <span class="menu-icon">&#9776;</span>
-        <input type="text" class="search-bar" placeholder="O que você deseja?">
-    </header>
+    {% include 'header.html' %}
 
-    <!-- Título da página -->
-    <div class="page-title">Meus Pedidos</div>
+    <main class="flex-grow pt-28 pb-32 fade-in lg:mx-32">
+        <div class="mx-5 mb-4 p-4 bg-gray-100 rounded-lg shadow-md mt-2">
+            <div class="text-lg font-bold text-gray-800">Seu último pedido</div>
+            <div class="text-sm text-gray-600 mt-1">Informações do pedido</div>
+            <button class="bg-primary text-white font-bold text-sm rounded px-4 py-2 mt-2 hover:bg-blue-600">Refazer pedido</button>
+        </div>
 
-    <!-- Último Pedido -->
-    <div class="order-card">
-        <div class="order-title">Seu ultimo pedido</div>
-        <div class="order-info">Informações do pedido</div>
-        <button class="refazer-btn">Refazer pedido</button>
-    </div>
+        <div class="m-5 text-2xl font-bold text-gray-800">Meus Pedidos</div>
 
-    <!-- Lista de pedidos anteriores -->
-    <div class="order-card">
-        <div class="order-title">Pedido 1</div>
-        <div class="order-info">Informações do pedido</div>
-        <div class="stars">★★★★★</div>
-    </div>
+        <div class="mx-5 mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
+            <div class="text-lg font-bold text-gray-800">Pedido 1</div>
+            <div class="text-sm text-gray-600 mt-1">Informações do pedido</div>
+            <div class="text-yellow-500 text-lg mt-1">★★★★★</div>
+        </div>
 
-    <div class="order-card">
-        <div class="order-title">Pedido 2</div>
-        <div class="order-info">Informações do pedido</div>
-        <div class="stars">★★★★☆</div>
-    </div>
+        <div class="mx-5 mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
+            <div class="text-lg font-bold text-gray-800">Pedido 2</div>
+            <div class="text-sm text-gray-600 mt-1">Informações do pedido</div>
+            <div class="text-yellow-500 text-lg mt-1">★★★★☆</div>
+        </div>
 
-    <div class="order-card">
-        <div class="order-title">Pedido 3</div>
-        <div class="order-info">Informações do pedido</div>
-        <div class="stars">★★★☆☆</div>
-    </div>
+        <div class="mx-5 mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
+            <div class="text-lg font-bold text-gray-800">Pedido 3</div>
+            <div class="text-sm text-gray-600 mt-1">Informações do pedido</div>
+            <div class="text-yellow-500 text-lg mt-1">★★★☆☆</div>
+        </div>
+    </main>
 
-    <!-- Rodapé -->
-    <footer class="footer">
-        <span class="footer-icon">&#128100;</span>
-        <span class="footer-icon">&#127968;</span>
-        <span class="footer-icon">&#128100;</span>
-    </footer>
-
-    <!-- Link para ícones (Font Awesome) -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    {% include 'footer.html' %}
 </body>
 </html>
