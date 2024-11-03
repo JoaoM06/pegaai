@@ -1,165 +1,40 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Usuário</title>
-    <style>
-        /* Estilos gerais */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #ffffff;
-        }
-
-        /* Cabeçalho com barra de busca */
-        .header {
-            background-color: #5FACF1;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #fff;
-        }
-
-        .menu-icon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .search-bar {
-            background-color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            padding: 10px;
-            width: 70%;
-            font-size: 14px;
-            outline: none;
-        }
-
-        /* Seção de perfil do usuário */
-        .profile-section {
-            text-align: center;
-            padding: 20px;
-            margin-top: 10px;
-        }
-
-        .profile-picture {
-            width: 80px;
-            height: 80px;
-            background-color: #ddd;
-            border-radius: 50%;
-            margin: 0 auto;
-        }
-
-        .user-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 10px 0 5px;
-            color: #333;
-        }
-
-        .user-info {
-            font-size: 14px;
-            color: #888;
-        }
-
-        /* Seção de configurações */
-        .settings {
-            margin: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .settings-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
-            color: #333;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-
-        .settings-item i {
-            margin-right: 10px;
-            font-size: 20px;
-            color: #5FACF1;
-        }
-
-        .settings-item .arrow {
-            margin-left: auto;
-            font-size: 18px;
-            color: #888;
-        }
-
-        /* Rodapé com ícones de navegação */
-        .footer {
-            background-color: #5FACF1;
-            padding: 10px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .footer-icon {
-            color: #ffffff;
-            font-size: 24px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
 </head>
 <body>
+    {% include 'header.html' %}
 
-    <!-- Cabeçalho -->
-    <header class="header">
-        <span class="menu-icon">&#9776;</span>
-        <input type="text" class="search-bar" placeholder="O que você deseja?">
-    </header>
+    <main class="flex-grow pt-28 pb-32 fade-in lg:mx-32">
+        <section class="text-center p-6 mt-4">
+            <div class="w-24 h-24 bg-gray-300 rounded-full mx-auto"></div>
+            <div class="text-lg font-bold mt-4 text-gray-800">Nome do usuário</div>
+            <div class="text-sm text-gray-500 mt-1">(99) 99999-9999<br>Informações do usuário</div>
+        </section>
 
-    <!-- Seção de Perfil -->
-    <section class="profile-section">
-        <div class="profile-picture">
-            <!-- Imagem de perfil -->
-        </div>
-        <div class="user-name">Nome do usuário</div>
-        <div class="user-info">(99) 99999-9999<br>Informações do usuário</div>
-    </section>
+        <div class="m-6 bg-gray-50 rounded-lg shadow-md divide-y divide-gray-200">
+            <div class="flex items-center p-4 text-gray-700 cursor-pointer">
+                <span class="text-lg font-medium">Informações de Pagamento</span>
+                <span class="ml-auto text-2xl">➔</span>
+            </div>
+            <div class="flex items-center p-4 text-gray-700 cursor-pointer">
+                <span class="text-lg font-medium">Privacidade e Segurança</span>
+                <span class="ml-auto text-2xl">➔</span>
+            </div>
+            <div class="flex items-center p-4 text-gray-700 cursor-pointer">
+                <span class="text-lg font-medium">Configurações da Conta</span>
+                <span class="ml-auto text-2xl">➔</span>
+            </div>
+    </main>
 
-    <!-- Configurações -->
-    <div class="settings">
-        <div class="settings-item">
-            <i class="fa fa-wallet"></i> Informações de Pagamento
-            <span class="arrow">&#9654;</span>
-        </div>
-        <div class="settings-item">
-            <i class="fa fa-lock"></i> Privacidade e Segurança
-            <span class="arrow">&#9654;</span>
-        </div>
-        <div class="settings-item">
-            <i class="fa fa-cog"></i> Configurações da Conta
-            <span class="arrow">&#9654;</span>
-        </div>
-    </div>
-
-    <!-- Rodapé -->
-    <footer class="footer">
-        <span class="footer-icon">&#128100;</span>
-        <span class="footer-icon">&#127968;</span>
-        <span class="footer-icon">&#128100;</span>
-    </footer>
-
-    <!-- Link para ícones (Font Awesome) -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    {% include 'footer.html' %}
 </body>
 </html>
 
