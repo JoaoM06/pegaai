@@ -1,26 +1,54 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Login</title>
+    <title>Login</title>
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
-<body>
+<body class="bg-white flex justify-center items-center h-screen font-sans">
 
-    <div class="bg-gray-200 flex items-center justify-center h-screen">
-        <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
-            <h1 class="text-center text-xl font-semibold mb-4">Bem vindo de volta!</h1>
-            <h2 class="text-center text-lg mb-4">Entre na sua conta</h2>
-            <form method="POST">
-                <input type="email" name="email" placeholder="E-mail" required class="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300">
-                <input type="password" name="password" placeholder="Senha" required class="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300">
-                <button type="submit" class="w-full p-2 bg-primary text-white rounded-md hover:bg-blue-600 transition duration-200">Entrar</button>
-            </form>
+    <div class="text-center w-72">
+        <h1 class="text-2xl font-bold mb-5 text-gray-800">Bem-vindo de volta!</h1>
+
+        <div class="bg-gray-100 p-5 rounded-lg shadow-md">
+            <h2 class="text-lg font-bold mb-4 text-gray-800">Faça login na sua conta</h2>
+
+            <input type="email" placeholder="E-mail" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50
+            mb-4">
+
+            <input type="password" placeholder="Senha" class="w-full mb-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50">
+
+            <div class="text-right mb-4">
+                <a href="#" class="text-sm text-blue-500 hover:underline">Esqueci a senha</a>
+            </div>
+
+            <button class="bg-primary text-white font-bold text-lg rounded-md py-2 w-full shadow-md hover:bg-blue-600 cursor-pointer mb-10">ENTRAR</button>
+
+
+            <button class="w-full flex items-center justify-between bg-white text-black border border-gray-300 rounded-md py-2 mb-2 font-bold text-base cursor-pointer social-btn">
+                <div class="flex items-center">
+                    <img src="{% static 'icons/google.png' %}" alt="Google Icon" class="w-6 h-6 mr-2 ml-2"> 
+                    Continuar com o Google
+                </div>
+            </button>
+            <button class="w-full flex items-center justify-between bg-facebook text-white rounded-md py-2 mb-2 font-bold text-base cursor-pointer social-btn">
+                <div class="flex items-center">
+                    <img src="{% static 'icons/facebook.png' %}" alt="Facebook Icon" class="w-6 h-6 mr-2 ml-2"> 
+                    Continuar com o Facebook
+                </div>
+            </button>
+            <button class="w-full flex items-center justify-between bg-black text-white rounded-md py-2 mb-2 font-bold text-base cursor-pointer social-btn">
+                <div class="flex items-center">
+                    <img src="{% static 'icons/apple.png' %}" alt="Apple Icon" class="w-6 h-6 mr-2 ml-2"> 
+                    Continuar com a Apple
+                </div>
+            </button>
         </div>
     </div>
 
 </body>
 </html>
+

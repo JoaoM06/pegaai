@@ -1,204 +1,61 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Barraca</title>
-    <style>
-        /* Estilos gerais */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #ffffff;
-        }
-
-        /* Cabeçalho com barra de busca */
-        .header {
-            background-color: #5FACF1;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #fff;
-        }
-
-        .menu-icon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .search-bar {
-            background-color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            padding: 10px;
-            width: 70%;
-            font-size: 14px;
-            outline: none;
-        }
-
-        /* Seção da barraca */
-        .stall-info {
-            margin: 20px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .stall-info .stall-image {
-            width: 60px;
-            height: 60px;
-            background-color: #ddd;
-            border-radius: 50%;
-        }
-
-        .stall-details {
-            color: #333;
-        }
-
-        .stall-details .stall-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .stall-details .stall-info-text {
-            font-size: 14px;
-            color: #888;
-        }
-
-        /* Título da categoria */
-        .category-title {
-            margin: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Lista de itens */
-        .item-card {
-            display: flex;
-            align-items: center;
-            margin: 0 20px 15px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .item-card .item-image {
-            width: 50px;
-            height: 50px;
-            background-color: #ddd;
-            border-radius: 8px;
-            margin-right: 15px;
-        }
-
-        .item-details {
-            flex: 1;
-        }
-
-        .item-details .item-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .item-details .item-info-text {
-            font-size: 14px;
-            color: #888;
-        }
-
-        .add-to-cart-btn {
-            background-color: #5FACF1;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        /* Rodapé com ícones de navegação */
-        .footer {
-            background-color: #5FACF1;
-            padding: 10px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .footer-icon {
-            color: #ffffff;
-            font-size: 24px;
-            cursor: pointer;
-        }
-    </style>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
 </head>
-<body>
+<body class="bg-white font-sans">
 
-    <!-- Cabeçalho -->
-    <header class="header">
-        <span class="menu-icon">&#9776;</span>
-        <input type="text" class="search-bar" placeholder="O que você deseja?">
-    </header>
+    {% include 'header.html' %}
 
-    <!-- Seção de informações da barraca -->
-    <section class="stall-info">
-        <div class="stall-image"></div>
-        <div class="stall-details">
-            <div class="stall-name">Nome da barraca</div>
-            <div class="stall-info-text">Informações sobre a barraca</div>
-            <div class="stall-info-text">Agendamento: 20-30 minutos</div>
+    <main class="flex-grow pt-28 pb-32 px-4 md:px-8 mt-6 fade-in lg:mx-32">
+        <section class="m-5 p-5 bg-gray-100 rounded-lg shadow-lg flex items-center gap-4">
+            <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
+            <div>
+                <h1 class="text-lg font-bold text-gray-800">Nome da barraca</h1>
+                <p class="text-sm text-gray-600">Informações sobre a barraca</p>
+                <p class="text-sm text-gray-600">Agendamento: 20-30 minutos</p>
+            </div>
+        </section>
+
+        <div class="m-5 text-lg font-bold text-gray-800">Categoria</div>
+
+        <div class="m-5 flex flex-col gap-4">
+            <div class="flex items-center bg-gray-100 p-4 rounded-lg shadow-lg">
+                <div class="w-12 h-12 bg-gray-300 rounded-lg mr-4"></div>
+                <div class="flex-1">
+                    <h2 class="text-base font-bold text-gray-800">Nome do item</h2>
+                    <p class="text-sm text-gray-600">Informações do pedido</p>
+                </div>
+                <button class="bg-primary text-white rounded-md py-2 px-4 text-sm font-bold">Adicionar ao carrinho</button>
+            </div>
+
+            <div class="flex items-center bg-gray-100 p-4 rounded-lg shadow-lg">
+                <div class="w-12 h-12 bg-gray-300 rounded-lg mr-4"></div>
+                <div class="flex-1">
+                    <h2 class="text-base font-bold text-gray-800">Nome do item</h2>
+                    <p class="text-sm text-gray-600">Informações do pedido</p>
+                </div>
+                <button class="bg-primary text-white rounded-md py-2 px-4 text-sm font-bold">Adicionar ao carrinho</button>
+            </div>
+
+            <div class="flex items-center bg-gray-100 p-4 rounded-lg shadow-lg">
+                <div class="w-12 h-12 bg-gray-300 rounded-lg mr-4"></div>
+                <div class="flex-1">
+                    <h2 class="text-base font-bold text-gray-800">Nome do item</h2>
+                    <p class="text-sm text-gray-600">Informações do pedido</p>
+                </div>
+                <button class="bg-primary text-white rounded-md py-2 px-4 text-sm font-bold">Adicionar ao carrinho</button>
+            </div>
         </div>
-    </section>
+    </main>
 
-    <!-- Título da categoria -->
-    <div class="category-title">Categoria</div>
+    {% include 'footer.html' %}
 
-    <!-- Lista de itens da categoria -->
-    <div class="item-card">
-        <div class="item-image"></div>
-        <div class="item-details">
-            <div class="item-name">Nome do item</div>
-            <div class="item-info-text">Informações do pedido</div>
-        </div>
-        <button class="add-to-cart-btn">Adicionar ao carrinho</button>
-    </div>
-
-    <div class="item-card">
-        <div class="item-image"></div>
-        <div class="item-details">
-            <div class="item-name">Nome do item</div>
-            <div class="item-info-text">Informações do pedido</div>
-        </div>
-        <button class="add-to-cart-btn">Adicionar ao carrinho</button>
-    </div>
-
-    <div class="item-card">
-        <div class="item-image"></div>
-        <div class="item-details">
-            <div class="item-name">Nome do item</div>
-            <div class="item-info-text">Informações do pedido</div>
-        </div>
-        <button class="add-to-cart-btn">Adicionar ao carrinho</button>
-    </div>
-
-    <!-- Rodapé -->
-    <footer class="footer">
-        <span class="footer-icon">&#128100;</span>
-        <span class="footer-icon">&#127968;</span>
-        <span class="footer-icon">&#128100;</span>
-    </footer>
-
-    <!-- Link para ícones (Font Awesome) -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
