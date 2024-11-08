@@ -1,7 +1,10 @@
+import uuid
+
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
 
 class Estabelecimento(models.Model):
+    id_estabelecimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nome = models.CharField(max_length=255)
     tipo = models.CharField(max_length=255)
     score = models.DecimalField(
