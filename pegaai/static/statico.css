@@ -1,0 +1,11 @@
+h1{
+
+}
+
+html {
+    height: 100%;
+    width: 100%;
+  }
+  body {
+      background: linear-gradient(to right,#5cc6fa, #4e8fe6);
+  }
