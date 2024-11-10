@@ -20,6 +20,7 @@ class Estabelecimento(models.Model):
         unique=True,
         validators=[MinLengthValidator(18)]
     )
+    descricao = models.TextField(blank=True)
 
     def __str__(self):
         return self.nome
