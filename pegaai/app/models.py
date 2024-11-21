@@ -2,8 +2,9 @@ import uuid
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
-
+from django.contrib.auth.models import User
 class Estabelecimento(models.Model):
+    usuario=models.ForeignKey(User,on_delete=models.CASCADE)
     id_estabelecimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nome = models.CharField(max_length=255)
     tipo = models.CharField(max_length=255)
@@ -46,6 +47,8 @@ class Itens(models.Model):
         return self.nome_item
 
 class Cliente(models.Model):
+    usuario=models.ForeignKey(User,on_delete=models.CASCADE)
+    
     id_cliente = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cpf = models.CharField(
         max_length=14,
@@ -79,6 +82,12 @@ class ItemCliente(models.Model):
         related_name='item_clientes',
         verbose_name='id_estabelecimento'
     )
+
+
+class Referencia(models.Model):
+    usuario= models.ForeignKey(User,
+                               on_delete=models.CASCADE)
+
 
     def __str__(self):
         return f"{self.id_cliente} - {self.id_item}"
