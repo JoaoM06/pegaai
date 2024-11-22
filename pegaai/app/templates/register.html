@@ -16,6 +16,8 @@
         <div class="bg-gray-100 p-5 rounded-lg shadow-md">
             <h2 class="text-lg font-bold mb-4 text-gray-800">Vamos começar</h2>
 
+         
+
             <button class="w-full flex items-center justify-between bg-white text-black border border-gray-300 rounded-md py-2 mb-2 font-bold text-base cursor-pointer social-btn">
                 <div class="flex items-center">
                     <img src="{% static 'icons/google.png' %}" alt="Google Icon" class="w-6 h-6 mr-2 ml-2"> 
@@ -41,6 +43,15 @@
                 <div class="flex items-center">
                     <img src="{% static 'icons/mail.png' %}" alt="Email Icon" class="w-6 h-6 mr-2 ml-2"> 
                     Registrar-se com o e-mail
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ formulario.as_p }}
+                        <button 
+                        type="submit" 
+                        class="w-full bg-primary text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 mt-4">
+                        Registrar-se
+                    </button>
+                </form>
                 </div>
             </button>
         </div>

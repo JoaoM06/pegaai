@@ -1,7 +1,38 @@
 
 
+<!-- Versao ORiginal
 <header class="fixed top-0 left-0 right-0">
   <nav class="bg-primary flex justify-center items-center py-6 lg:py-4 rounded-b-2xl">
     <input type="text" placeholder="O que você deseja?" class="bg-white py-3 px-20 text-center rounded-full font-medium outline-none"></input>
   </nav>
+  <div href="/Login">
+   Login
+  </div>
+</header>-->
+<header class="fixed top-0 left-0 right-0 bg-primary flex items-center justify-between px-6 py-4 rounded-b-2xl">
+  <!-- Barra de busca centralizada -->
+  <form method="GET" action="{% url 'sua_view_de_busca' %}" class="w-full max-w-lg mx-auto">
+    <input 
+      type="text" 
+      placeholder="O que você deseja?" 
+      class="bg-white py-3 px-20 text-center rounded-full font-medium outline-none w-full"
+    >
+  </form>
+
+  <!-- Botão de Login/Usuário -->
+  <div class="absolute top-4 right-6">
+    {% if user.is_authenticated %}
+      <!-- Usuário logado -->
+      <div class="flex items-center space-x-2">
+        <span class="text-white font-bold">Olá, {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="bg-red-500 text-white font-bold py-2 px-4 rounded-full hover:bg-red-600">Sair</a>
+      </div>
+    {% else %}
+      <!-- Usuário deslogado -->
+      <a href="{% url 'login' %}" class="bg-white text-primary font-bold py-2 px-4 rounded-full hover:bg-gray-200">
+        Login
+      </a>
+    {% endif %}
+  </div>
 </header>
+

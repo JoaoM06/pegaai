@@ -18,6 +18,12 @@
 
             <input type="email" placeholder="E-mail" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50
             mb-4">
+            <form method="POST">
+                {% csrf_token %}
+                {{ formulario }}
+                <button class="bg-primary text-white font-bold text-lg rounded-md py-2 w-full shadow-md hover:bg-blue-600 cursor-pointer mb-10">ENTRAR</button>
+            </form> 
+                
 
             <input type="password" placeholder="Senha" class="w-full mb-3 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50">
 
