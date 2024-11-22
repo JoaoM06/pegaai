@@ -1,11 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Estabelecimento
-from django.shortcuts import render, redirect
-from django.contrib.auth import login,logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-
-from .forms import NovoUsuarioForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
 def home(request):
@@ -15,6 +12,9 @@ def home(request):
 
 def register(request):
     return render(request, "register.html")
+
+def register_email(request):
+    return render(request, "register_email.html")
 
 def login(request):
     return render(request, "login.html")
@@ -36,32 +36,37 @@ def itens_estabelecimento(request, id_estabelecimento):
     itens = estabelecimento.itens.all()
     return render(request, 'menu.html', {'estabelecimento': estabelecimento, 'itens': itens})
 
-def login_usuario(request):
-    formulario=AuthenticationForm()
-    if request.method == 'POST':
-        formulario=AuthenticationForm(request, request.POST)
-        if formulario.is_valid():
-            usuario=formulario.get_user()
-            login(request, usuario)
-            return redirect('/index')
-        return render(request,'login.html', {'formulario': formulario})
+def register(request):
+    return render(request, 'register.html')
 
-def cadastro_usuario(request):
-    formulario = NovoUsuarioForm()
+def register_email(request):
+    form = UserCreationForm()
     if request.method == 'POST' and request.POST:
-        formulario = NovoUsuarioForm(request.POST)
-        if formulario.is_valid():
-            novo_usuario= formulario.save(commit=False)
-            novo_usuario.email= formulario.cleaned_data['email']
-            novo_usuario.first_name = formulario.cleaned_data['first_name']
-            novo_usuario.last_name = formulario.cleaned_data['last_name']
-            novo_usuario.save()
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
             return redirect('/login')
-        return render(request,'cadastro_usuario.html',{'formulario':formulario})
+    else:
+        form = UserCreationForm()
+    return render(request, 'register_email.html', {'form': form})
+
+def login_user(request):
+    form=AuthenticationForm()
+    if request.method == 'POST':
+        form=AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            user=form.get_user()
+            login(request, user)
+            return redirect('/index')
+    else:
+        form = AuthenticationForm()
+    return render(request,'login.html', {'form': form})
+
+
 
 
 @login_required 
-def logout_usuario(request):
+def logout(request):
     logout(request)
     return redirect ('/')
 
