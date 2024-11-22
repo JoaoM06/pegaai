@@ -39,12 +39,12 @@ def itens_estabelecimento(request, id_estabelecimento):
 def login_usuario(request):
     formulario=AuthenticationForm()
     if request.method == 'POST':
-        formulario=AuthenticationForm(request,request.POST)
+        formulario=AuthenticationForm(request, request.POST)
         if formulario.is_valid():
             usuario=formulario.get_user()
-            login(request,usuario)
+            login(request, usuario)
             return redirect('/index')
-        return render(request,'login.html',{'formulario': formulario})
+        return render(request,'login.html', {'formulario': formulario})
 
 def cadastro_usuario(request):
     formulario = NovoUsuarioForm()
