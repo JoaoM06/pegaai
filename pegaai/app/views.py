@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Estabelecimento
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import Group
+from .forms import UserRegisterForm, EstablishmentRegisterForm, EstablishmentAddForm
 
-
+@login_required
 def home(request):
     estabelecimentos = Estabelecimento.objects.all()
 
@@ -36,19 +38,32 @@ def itens_estabelecimento(request, id_estabelecimento):
     itens = estabelecimento.itens.all()
     return render(request, 'menu.html', {'estabelecimento': estabelecimento, 'itens': itens})
 
-def register(request):
+def register_user(request):
     return render(request, 'register.html')
 
 def register_email(request):
-    form = UserCreationForm()
+    form = UserRegisterForm()
     if request.method == 'POST' and request.POST:
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('/login')
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
     return render(request, 'register_email.html', {'form': form})
+
+def register_establishment(request):
+    form = EstablishmentRegisterForm()
+    if request.method == 'POST' and request.POST:
+        form = EstablishmentRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            group = Group.objects.get(name='Estabelecimento')
+            user.groups.add(group)
+            return redirect('/login')
+    else:
+        form = EstablishmentRegisterForm()
+    return render(request, 'register_establishment.html', {'form': form})
 
 def login_user(request):
     form=AuthenticationForm()
@@ -63,12 +78,21 @@ def login_user(request):
     return render(request,'login.html', {'form': form})
 
 
-
-
-@login_required 
+@login_required
 def logout(request):
     logout(request)
     return redirect ('/')
+
+def add_establishment(request):
+    if request.method == 'POST':
+        form = EstablishmentAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Ajuste conforme sua URL de destino
+    else:
+        form = EstablishmentAddForm()
+    
+    return render(request, 'add_establishment.html', {'form': form})
 
 
 # @login_required
