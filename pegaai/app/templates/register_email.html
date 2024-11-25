@@ -1,16 +1,55 @@
+{% load static %}
+{% load custom_filters %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar-se</title>
+    <title>Registrar</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
-<body>
-    <h2>Registrar</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Registrar</button>
-    </form>
+<body class="bg-white flex justify-center items-center h-screen font-sans">
+
+    <div class="text-center w-96">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">Crie sua conta</h1>
+
+        <div class="bg-gray-100 p-8 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-5 text-gray-800">Vamos começar</h2>
+            
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+                <div>
+                    {{ form.username|add_class:"w-full py-2 px-4 text-lg border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50" }}
+                </div>
+                <div>
+                    {{ form.email|add_class:"w-full py-2 px-4 text-lg border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50" }}
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-1/2">
+                        {{ form.first_name|add_class:"w-full py-2 px-4 text-lg border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50" }}
+                    </div>
+                    <div class="w-1/2">
+                        {{ form.last_name|add_class:"w-full py-2 px-4 text-lg border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50" }}
+                    </div>
+                </div>
+                <div>
+                    {{ form.password1|add_class:"w-full py-2 px-4 text-lg border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50" }}
+                </div>
+                <div>
+                    {{ form.password2|add_class:"w-full py-2 px-4 text-lg border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50" }}
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-3 rounded-md font-bold text-lg hover:bg-blue-600">
+                    Registrar
+                </button>
+            </form>
+        </div>
+
+        <p class="mt-6 text-base text-gray-600">
+            Já tem uma conta? 
+            <a href="{% url 'login' %}" class="text-primary font-bold hover:underline">Entrar</a>
+        </p>
+    </div>
+
 </body>
 </html>
