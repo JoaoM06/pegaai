@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacidade e Segurança</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    {% include 'header.html' %}
+
+    <main class="flex-grow pt-28 pb-32 fade-in lg:mx-32">
+        <div class="bg-white shadow-md rounded-lg p-6 text-center">
+            <div class="flex justify-center mb-4">
+                <div class="bg-gray-200 rounded-full h-20 w-20"></div>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800">Olá, Plancton03</h2>
+            <p class="text-gray-600">(99) 99999-9999</p>
+            <p class="text-gray-600">Configurações de privacidade e segurança</p>
+        </div>
+
+        <div class="mt-6 bg-white shadow-md rounded-lg p-6 space-y-4">
+            <h2 class="text-lg font-bold text-gray-800">Opções de Privacidade</h2>
+
+            <div class="border-b border-gray-200 pb-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Alterar Senha</h3>
+                        <p class="text-gray-600 text-sm">Atualize sua senha para manter sua conta segura.</p>
+                    </div>
+                    <a href="#" class="text-primary font-semibold hover:underline">Alterar</a>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200 pb-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Autenticação em 2 Fatores</h3>
+                        <p class="text-gray-600 text-sm">Adicione uma camada extra de segurança à sua conta.</p>
+                    </div>
+                    <a href="#" class="text-primary font-semibold hover:underline">Configurar</a>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200 pb-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Dados de Atividade</h3>
+                        <p class="text-gray-600 text-sm">Visualize e gerencie as atividades da sua conta.</p>
+                    </div>
+                    <a href="#" class="text-primary font-semibold hover:underline">Visualizar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 bg-white shadow-md rounded-lg p-6 space-y-4">
+            <h2 class="text-lg font-bold text-gray-800">Configurações de Segurança</h2>
+
+            <div class="border-b border-gray-200 pb-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Login Seguro</h3>
+                        <p class="text-gray-600 text-sm">Ative o login seguro para proteger sua conta.</p>
+                    </div>
+                    <a href="#" class="text-primary font-semibold hover:underline">Ativar</a>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200 pb-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Permissões de Aplicativos</h3>
+                        <p class="text-gray-600 text-sm">Gerencie as permissões de aplicativos conectados.</p>
+                    </div>
+                    <a href="#" class="text-primary font-semibold hover:underline">Gerenciar</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'footer.html' %}
+
+</body>
+</html>

@@ -13,6 +13,9 @@ urlpatterns = [
     path("cart", views.cart, name="cart"),
     path('index/', views.home, name='home'),
     path('account_settings/', views.account_settings, name='account_settings'),
+    path('establishment/', views.establishment, name='establishment'),
+    path('payment-info/', views.payment_info, name='payment_info'),
+    path('privacity/', views.privacity, name='privacity'),
 
     path('estabelecimento/<uuid:id_estabelecimento>/itens/', views.itens_estabelecimento, name='itens_estabelecimento'),
     path('add-establishment/', views.add_establishment, name='add_establishment'),

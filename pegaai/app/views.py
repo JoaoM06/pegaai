@@ -32,6 +32,16 @@ def cart(request):
     return render(request, "cart.html")
 
 @login_required
+def establishment(request):
+    return render(request, "establishment.html")
+
+def payment_info(request):
+    return render(request, "payment_info.html")
+
+def privacity(request):
+    return render(request, "privacity.html")
+
+@login_required
 def account_settings(request):
     return render(request, "account_settings.html")
 

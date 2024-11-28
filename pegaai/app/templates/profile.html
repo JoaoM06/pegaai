@@ -20,14 +20,14 @@
         </section>
 
         <div class="m-6 bg-gray-50 rounded-lg shadow-md divide-y divide-gray-200">
-            <div class="flex items-center p-4 text-gray-700 cursor-pointer">
+            <a href="{% url 'payment_info' %}" class="flex items-center p-4 text-gray-700 cursor-pointer">
                 <span class="text-lg font-medium">Informações de Pagamento</span>
                 <span class="ml-auto text-2xl">➔</span>
-            </div>
-            <div class="flex items-center p-4 text-gray-700 cursor-pointer">
+            </a>
+            <a href="{% url 'privacity' %}" class="flex items-center p-4 text-gray-700 cursor-pointer">
                 <span class="text-lg font-medium">Privacidade e Segurança</span>
                 <span class="ml-auto text-2xl">➔</span>
-            </div>
+            </a>
             <a href="{% url 'account_settings' %}" class="flex items-center p-4 text-gray-700 cursor-pointer">
                 <span class="text-lg font-medium">Configurações da Conta</span>
                 <span class="ml-auto text-2xl">➔</span>
