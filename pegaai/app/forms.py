@@ -4,6 +4,15 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from validate_docbr import CNPJ
 from .models import Estabelecimento
+import uuid
+
+def image_upload_to(instance, filename):
+    extension = filename.split('.')[-1]
+    new_filename = f"{uuid.uuid4()}.{extension}"
+    return f"imgs/establishment/{new_filename}"
+
+
+
 
 class UserRegisterForm(UserCreationForm):
     password1 = forms.CharField(
