@@ -63,7 +63,7 @@ class CustomLoginForm(AuthenticationForm):
 class EstablishmentAddForm(forms.ModelForm):
     class Meta:
         model = Estabelecimento
-        fields = ['nome', 'tipo', 'score', 'cnpj', 'descricao']
+        fields = ['nome', 'tipo', 'score', 'cnpj', 'descricao', "imagem"]
         widgets = {
             'descricao': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Descrição do estabelecimento'}),
             'score': forms.NumberInput(attrs={'step': '0.50', 'min': '0.00', 'max': '5.00'}),

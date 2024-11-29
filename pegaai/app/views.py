@@ -102,7 +102,7 @@ def user_logout(request):
 
 def add_establishment(request):
     if request.method == 'POST':
-        form = EstablishmentAddForm(request.POST)
+        form = EstablishmentAddForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('home')

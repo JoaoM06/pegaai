@@ -21,6 +21,7 @@ class Estabelecimento(models.Model):
         validators=[MinLengthValidator(18)]
     )
     descricao = models.TextField(blank=True)
+    imagem = models.ImageField(upload_to='imgs/establishment/', null=True, blank=True)
 
     def __str__(self):
         return self.nome
