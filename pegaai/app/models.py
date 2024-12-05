@@ -1,4 +1,5 @@
 import uuid
+from django.contrib.auth.models import User
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
@@ -46,8 +47,24 @@ class Itens(models.Model):
     def __str__(self):
         return self.nome_item
 
+# class Cliente(models.Model):
+#     id_cliente = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     cpf = models.CharField(
+#         max_length=14,
+#         validators=[MinLengthValidator(14)]
+#     )
+#     nome = models.CharField(max_length=100)
+#     email = models.EmailField(max_length=100)
+#     dt_nasc = models.DateField()
+
+#     def __str__(self):
+#         return self.nome
+
+
+
 class Cliente(models.Model):
     id_cliente = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cliente",null=True,blank=True)
     cpf = models.CharField(
         max_length=14,
         validators=[MinLengthValidator(14)]
@@ -58,6 +75,7 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nome
+
 
 class ItemCliente(models.Model):
     id_item = models.ForeignKey(

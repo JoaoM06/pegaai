@@ -1,4 +1,4 @@
-{% load static %}
+<!-- {% load static %}
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -50,6 +50,75 @@
             <button class="w-full bg-primary text-white py-2 rounded-lg font-bold text-sm hover:bg-blue-600">Finalizar Pedido</button>
         </div>
 
+    </main>
+
+    {% include 'footer.html' %}
+
+</body>
+</html> -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    {% include 'header.html' %}
+
+    <main class="flex-grow pt-28 pb-32 px-4 md:px-8 mt-6 fade-in lg:mx-32">
+        {% if cart_items %}
+        <div class="m-5 space-y-4">
+            {% for item in cart_items %}
+            <div class="flex items-center bg-white p-4 rounded-lg shadow-md">
+                <div class="w-16 h-16 bg-gray-300 rounded-lg mr-4">
+                    <!-- Exemplo de imagem dinâmica -->
+                    {% if item.id_item.imagem %}
+                    <img src="{{ item.id_item.imagem.url }}" alt="{{ item.id_item.nome_item }}" class="w-full h-full object-cover rounded-lg">
+                    {% endif %}
+                </div>
+                <div class="flex-1">
+                    <h2 class="text-base font-bold text-gray-800">{{ item.id_item.nome_item }}</h2>
+                    <p class="text-sm text-gray-600">R$ {{ item.id_item.valor_item|floatformat:2 }}</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <!-- Botão para diminuir quantidade -->
+                    <form method="post" action="{% url 'remove_from_cart' item.id_item.id_item %}" class="inline-block">
+                        {% csrf_token %}
+                        <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-lg">-</button>
+                    </form>
+                    <span class="text-sm font-bold text-gray-800">{{ item.qtd }}</span>
+                    <!-- Botão para aumentar quantidade -->
+                    <form method="post" action="{% url 'add_to_cart' item.id_item.id_item %}" class="inline-block">
+                        {% csrf_token %}
+                        <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-lg">+</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="m-5 p-4 bg-white rounded-lg shadow-md">
+            <div class="flex justify-between text-gray-800 font-bold mb-4">
+                <span>Total:</span>
+                <span>R$ {{ total|floatformat:2 }}</span>
+            </div>
+            <form method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <button class="w-full bg-primary text-white py-2 rounded-lg font-bold text-sm hover:bg-blue-600">Finalizar Pedido</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="text-center text-gray-600 mt-12">
+            <p>Seu carrinho está vazio.</p>
+            <a href="{% url 'home' %}" class="text-primary font-bold hover:underline">Voltar para os estabelecimentos</a>
+        </div>
+        {% endif %}
     </main>
 
     {% include 'footer.html' %}

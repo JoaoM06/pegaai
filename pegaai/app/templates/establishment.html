@@ -1,4 +1,4 @@
-{% load static %}
+<!-- {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -43,5 +43,55 @@
     </main>
 
     {% include 'footer.html' %}
+</body>
+</html> -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itens do Estabelecimento</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    {% include 'header.html' %}
+
+    <main class="flex-grow pt-28 pb-32 fade-in lg:mx-32">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Itens Disponíveis</h1>
+        {% if itens %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for item in itens %}
+            <div class="bg-white shadow-md rounded-lg p-4">
+                <div class="h-32 bg-gray-300 rounded-lg mb-4">
+                    {% if item.imagem %}
+                    <img src="{{ item.imagem.url }}" alt="{{ item.nome_item }}" class="w-full h-full object-cover rounded-lg">
+                    {% else %}
+                    <span class="flex items-center justify-center h-full text-gray-500">Sem Imagem</span>
+                    {% endif %}
+                </div>
+                <h2 class="text-lg font-bold text-gray-800">{{ item.nome_item }}</h2>
+                <p class="text-sm text-gray-600">R$ {{ item.valor_item|floatformat:2 }}</p>
+                <p class="text-sm text-gray-600">{{ item.descricao }}</p>
+                <form method="post" action="{% url 'add_to_cart' item.id_item %}" class="mt-4">
+                    {% csrf_token %}
+                    <label for="quantidade-{{ item.id_item }}" class="text-sm text-gray-700">Quantidade:</label>
+                    <input id="quantidade-{{ item.id_item }}" type="number" name="quantidade" value="1" min="1" max="{{ item.estoque }}" class="w-16 text-center border rounded-lg py-1 px-2 text-gray-800">
+                    <button class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark mt-2 w-full">Adicionar ao Carrinho</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center text-gray-600 mt-12">
+            <p>Nenhum item disponível no momento.</p>
+            <a href="{% url 'home' %}" class="text-primary font-bold hover:underline">Voltar aos Estabelecimentos</a>
+        </div>
+        {% endif %}
+    </main>
+
+    {% include 'footer.html' %}
+
 </body>
 </html>
