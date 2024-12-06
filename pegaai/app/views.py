@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from .forms import UserRegisterForm, EstablishmentRegisterForm, EstablishmentAddForm
 from django.http import JsonResponse
-from .models import Itens, ItemCliente
+from .models import Itens, ItemCliente,Cliente
 from django.utils.timezone import now
 from django.db.models.signals import post_save
 from django.dispatch import receiver

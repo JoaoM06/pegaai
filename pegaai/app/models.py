@@ -101,3 +101,12 @@ class ItemCliente(models.Model):
 
     def __str__(self):
         return f"{self.id_cliente} - {self.id_item}"
+# Sinais para criar o Cliente automaticamente
+@receiver(post_save, sender=User)
+def criar_cliente(sender, instance, created, **kwargs):
+    if created:
+        Cliente.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def salvar_cliente(sender, instance, **kwargs):
+    instance.cliente.save()
