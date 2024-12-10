@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+
 
 class Estabelecimento(models.Model):
     id_estabelecimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -102,11 +106,12 @@ class ItemCliente(models.Model):
     def __str__(self):
         return f"{self.id_cliente} - {self.id_item}"
 # Sinais para criar o Cliente automaticamente
-@receiver(post_save, sender=User)
-def criar_cliente(sender, instance, created, **kwargs):
-    if created:
-        Cliente.objects.create(user=instance)
+#@receiver(post_save, sender=User)
+#def criar_cliente(sender, instance, created, **kwargs):
+#    if created:
+#        Cliente.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def salvar_cliente(sender, instance, **kwargs):
-    instance.cliente.save()
+#@receiver(post_save, sender=User)
+#def salvar_cliente(sender, instance, **kwargs):
+#    instance.cliente.save()
+
