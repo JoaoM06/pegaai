@@ -4,9 +4,6 @@ from .forms import CustomLoginForm
 from django.contrib.auth.views import LoginView
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import add_to_cart
-from .views import view_cart
-from .views import remove_from_cart
 urlpatterns = [
     path("", views.home, name="home"),
     path("menu", views.menu),
@@ -40,12 +37,12 @@ urlpatterns = [
     path('entrar/', LoginView.as_view(template_name='login.html', authentication_form=CustomLoginForm), name='login'),
     path('logout/',views.user_logout, name='logout'),
     path('sair/',views.user_logout, name='logout'),
-    # path('cart/', views.view_cart, name='cart'),
-    path('cart/add/<uuid:id_item>/', add_to_cart, name='add_to_cart'),
-    path('cart/', view_cart, name='view_cart'),
+    path('cart/add/<uuid:id_item>/', views.add_to_cart, name='add_to_cart'),
+    path('cart/', views.view_cart, name='view_cart'),
     path('estabelecimento/<uuid:id_estabelecimento>/itens/', views.itens_estabelecimento, name='itens_estabelecimento'),
 
-    path('cart/remove/<uuid:id_item>/', remove_from_cart, name='remove_from_cart')
+    path('cart/remove/<uuid:id_item>/', views.remove_from_cart, name='remove_from_cart'),
+    path('cart/add_item/<uuid:id_item>/', views.add_cart_item, name='add_cart_item')
 ]
 
 

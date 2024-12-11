@@ -11,6 +11,7 @@ from django.utils.timezone import now
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 def not_logged(usuario):
     return not usuario.is_authenticated
@@ -52,14 +53,11 @@ def account_settings(request):
     return render(request, "account_settings.html")
 
 @login_required
-# def itens_estabelecimento(request, id_estabelecimento):
-#     estabelecimento = get_object_or_404(Estabelecimento, id_estabelecimento=id_estabelecimento)
-#     itens = estabelecimento.itens.all()
-#     return render(request, 'menu.html', {'estabelecimento': estabelecimento, 'itens': itens})
 def itens_estabelecimento(request, id_estabelecimento):
     estabelecimento = get_object_or_404(Estabelecimento, id_estabelecimento=id_estabelecimento)
     itens = estabelecimento.itens.all()  # Relacionamento com os itens
     return render(request, 'establishment.html', {'estabelecimento': estabelecimento, 'itens': itens})
+
 @user_passes_test(not_logged, login_url='/')
 def register_user(request):
     return render(request, 'register.html')
@@ -121,72 +119,35 @@ def add_establishment(request):
     return render(request, 'add_establishment.html', {'form': form})
 
 
-
-
-# @login_required
-# def add_to_cart(request, id_item):
-#     item = get_object_or_404(Itens, id_item=id_item)
-#     cliente = request.user.cliente  # Assumindo que cada usuário tem um perfil de cliente relacionado
-#     estabelecimento = item.id_estabelecimento
-
-#     # Verificar se o cliente já possui itens no carrinho de outro estabelecimento
-#     existing_items = ItemCliente.objects.filter(id_cliente=cliente, id_estabelecimento__isnull=False).distinct('id_estabelecimento')
-#     if existing_items.exists() and existing_items.first().id_estabelecimento != estabelecimento:
-#         return JsonResponse({'error': 'Você só pode adicionar itens de um único estabelecimento ao carrinho.'}, status=400)
-
-#     # Verificar se há estoque suficiente
-#     quantidade = int(request.POST.get('quantidade', 1))
-#     if item.estoque < quantidade:
-#         return JsonResponse({'error': 'Estoque insuficiente para o item selecionado.'}, status=400)
-
-#     # Adicionar ou atualizar o item no carrinho
-#     cart_item, created = ItemCliente.objects.get_or_create(
-#         id_cliente=cliente,
-#         id_item=item,
-#         id_estabelecimento=estabelecimento,
-#         defaults={'dataehora': now(), 'qtd': quantidade}
-#     )
-#     if not created:
-#         cart_item.qtd += quantidade
-#         cart_item.save()
-
-#     # Atualizar o estoque do item
-#     item.estoque -= quantidade
-#     item.save()
-
-#     return JsonResponse({'message': 'Item adicionado ao carrinho com sucesso!'})
-
-@login_required
 def add_to_cart(request, id_item):
-    # Tenta obter o perfil de cliente do usuário
     try:
         cliente = request.user.cliente
     except Cliente.DoesNotExist:
-        return JsonResponse({'error': 'Usuário não possui um perfil de cliente associado.'}, status=400)
+        return render(request, 'establishment.html', {
+            'error_message': 'Usuário não possui um perfil de cliente associado.'
+        })
 
     item = get_object_or_404(Itens, id_item=id_item)
     estabelecimento = item.id_estabelecimento
 
-    # Verificar se o cliente já possui itens no carrinho de outro estabelecimento
-
-    # existing_items = ItemCliente.objects.filter(id_cliente=cliente, id_estabelecimento__isnull=False).distinct('id_estabelecimento')
-    # if existing_items.exists() and existing_items.first().id_estabelecimento != estabelecimento:
-    #     return JsonResponse({'error': 'Você só pode adicionar itens de um único estabelecimento ao carrinho.'}, status=400)
-    
     existing_items = ItemCliente.objects.filter(id_cliente=cliente, id_estabelecimento__isnull=False)
     estabelecimentos = existing_items.values_list('id_estabelecimento', flat=True).distinct()
 
     if estabelecimentos and estabelecimentos[0] != estabelecimento.id_estabelecimento:
-        return JsonResponse({
-            'error': 'Você só pode adicionar itens de um único estabelecimento ao carrinho.'
-        }, status=400)
+        itens = Itens.objects.filter(id_estabelecimento=estabelecimento)
+        return render(request, 'establishment.html', {
+            'itens': itens,
+            'error_message': 'Você só pode adicionar itens de um único estabelecimento ao carrinho.'
+        })
 
-    # Verificar se há estoque suficiente
     quantidade = int(request.POST.get('quantidade', 1))
     if item.estoque < quantidade:
-        return JsonResponse({'error': 'Estoque insuficiente para o item selecionado.'}, status=400)
+        itens = Itens.objects.filter(id_estabelecimento=estabelecimento)
+        return render(request, 'establishment.html', {
+            'itens': itens,
+            'error_message': 'Estoque insuficiente para o item selecionado.'
+        })
 
-    # Adicionar ou atualizar o item no carrinho
     cart_item, created = ItemCliente.objects.get_or_create(
         id_cliente=cliente,
         id_item=item,
@@ -197,37 +158,66 @@ def add_to_cart(request, id_item):
         cart_item.qtd += quantidade
         cart_item.save()
 
-    # Atualizar o estoque do item
     item.estoque -= quantidade
     item.save()
 
-    return JsonResponse({'message': 'Item adicionado ao carrinho com sucesso!'})
+    itens = Itens.objects.filter(id_estabelecimento=estabelecimento)
+    return render(request, 'establishment.html', {
+        'itens': itens,
+        'success_message': 'Item adicionado ao carrinho com sucesso!'
+    })
 
 
 @login_required
 def view_cart(request):
-    cliente = request.user.cliente  # Assumindo que cada usuário tem um perfil de cliente relacionado
+    cliente = request.user.cliente
     cart_items = ItemCliente.objects.filter(id_cliente=cliente)
     
     total = sum(item.qtd * item.id_item.valor_item for item in cart_items)
     return render(request, 'cart.html', {'cart_items': cart_items, 'total': total})
-@login_required
-def remove_from_cart(request, id_item):
-    cliente = request.user.cliente
-    cart_item = get_object_or_404(ItemCliente, id_cliente=cliente, id_item=id_item)
-    
-    # Devolver o estoque
-    cart_item.id_item.estoque += cart_item.qtd
-    cart_item.id_item.save()
 
-    cart_item.delete()
+
+@login_required
+def add_cart_item(request, id_item):
+    try:
+        cliente = request.user.cliente
+    except Cliente.DoesNotExist:
+        messages.error(request, 'Usuário não possui um perfil de cliente associado.')
+        return redirect('establishment')
+
+    item = get_object_or_404(Itens, pk=id_item)
+    cart_item, created = ItemCliente.objects.get_or_create(id_cliente=cliente, id_item=item)
+
+    if created:
+        messages.success(request, f'Item {item.nome_item} adicionado ao carrinho.')
+    else:
+        if cart_item.qtd < item.estoque:
+            cart_item.qtd += 1
+            cart_item.save()
+        else:
+            messages.error(request, 'Quantidade máxima do item atingida.')
 
     return redirect('view_cart')
-@receiver(post_save, sender=User)
-def criar_cliente(sender, instance, created, **kwargs):
-    if created:
-        Cliente.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def salvar_cliente(sender, instance, **kwargs):
-    instance.cliente.save()
+@login_required
+def remove_from_cart(request, id_item):
+    try:
+        cliente = request.user.cliente
+    except Cliente.DoesNotExist:
+        messages.error(request, 'Usuário não possui um perfil de cliente associado.')
+        return redirect('establishment')
+
+    cart_item = ItemCliente.objects.filter(id_cliente=cliente, id_item_id=id_item).first()
+
+    if not cart_item:
+        messages.error(request, 'Item não encontrado no carrinho.')
+        return redirect('view_cart')
+
+    if cart_item.qtd > 1:
+        cart_item.qtd -= 1
+        cart_item.save()
+
+    else:
+        cart_item.delete()
+
+    return redirect('view_cart')
