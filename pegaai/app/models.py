@@ -68,14 +68,12 @@ class Itens(models.Model):
 
 class Cliente(models.Model):
     id_cliente = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cliente",null=True,blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cliente",null=True)
     cpf = models.CharField(
         max_length=14,
-        validators=[MinLengthValidator(14)]
+        validators=[MinLengthValidator(14)],
+        blank=True
     )
-    nome = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    dt_nasc = models.DateField()
 
     def __str__(self):
         return self.nome
@@ -105,6 +103,9 @@ class ItemCliente(models.Model):
 
     def __str__(self):
         return f"{self.id_cliente} - {self.id_item}"
+    
+
+    
 # Sinais para criar o Cliente automaticamente
 #@receiver(post_save, sender=User)
 #def criar_cliente(sender, instance, created, **kwargs):

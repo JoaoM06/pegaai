@@ -155,6 +155,7 @@ def add_establishment(request):
 #     item.save()
 
 #     return JsonResponse({'message': 'Item adicionado ao carrinho com sucesso!'})
+
 @login_required
 def add_to_cart(request, id_item):
     # Tenta obter o perfil de cliente do usuário
@@ -167,9 +168,18 @@ def add_to_cart(request, id_item):
     estabelecimento = item.id_estabelecimento
 
     # Verificar se o cliente já possui itens no carrinho de outro estabelecimento
-    existing_items = ItemCliente.objects.filter(id_cliente=cliente, id_estabelecimento__isnull=False).distinct('id_estabelecimento')
-    if existing_items.exists() and existing_items.first().id_estabelecimento != estabelecimento:
-        return JsonResponse({'error': 'Você só pode adicionar itens de um único estabelecimento ao carrinho.'}, status=400)
+
+    # existing_items = ItemCliente.objects.filter(id_cliente=cliente, id_estabelecimento__isnull=False).distinct('id_estabelecimento')
+    # if existing_items.exists() and existing_items.first().id_estabelecimento != estabelecimento:
+    #     return JsonResponse({'error': 'Você só pode adicionar itens de um único estabelecimento ao carrinho.'}, status=400)
+    
+    existing_items = ItemCliente.objects.filter(id_cliente=cliente, id_estabelecimento__isnull=False)
+    estabelecimentos = existing_items.values_list('id_estabelecimento', flat=True).distinct()
+
+    if estabelecimentos and estabelecimentos[0] != estabelecimento.id_estabelecimento:
+        return JsonResponse({
+            'error': 'Você só pode adicionar itens de um único estabelecimento ao carrinho.'
+        }, status=400)
 
     # Verificar se há estoque suficiente
     quantidade = int(request.POST.get('quantidade', 1))

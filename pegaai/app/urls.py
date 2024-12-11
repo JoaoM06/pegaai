@@ -40,7 +40,7 @@ urlpatterns = [
     path('entrar/', LoginView.as_view(template_name='login.html', authentication_form=CustomLoginForm), name='login'),
     path('logout/',views.user_logout, name='logout'),
     path('sair/',views.user_logout, name='logout'),
-    path('kart/', views.cart, name='cart'),
+    # path('cart/', views.view_cart, name='cart'),
     path('cart/add/<uuid:id_item>/', add_to_cart, name='add_to_cart'),
     path('cart/', view_cart, name='view_cart'),
     path('estabelecimento/<uuid:id_estabelecimento>/itens/', views.itens_estabelecimento, name='itens_estabelecimento'),

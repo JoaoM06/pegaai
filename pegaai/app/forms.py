@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from validate_docbr import CNPJ
-from .models import Estabelecimento
+from .models import Estabelecimento, Cliente
 import uuid
 
 def image_upload_to(instance, filename):
@@ -14,14 +14,51 @@ def image_upload_to(instance, filename):
 
 
 
+# class UserRegisterForm(UserCreationForm):
+#     password1 = forms.CharField(
+#         label="Senha",
+#         widget=forms.PasswordInput(attrs={"class": "w-full p-3 border rounded"}),
+#     )
+#     password2 = forms.CharField(
+#         label="Confirme sua senha",
+#         widget=forms.PasswordInput(attrs={"class": "w-full p-3 border rounded"}),
+#     )
+
+#     class Meta:
+#         model = User
+#         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+#         labels = {
+#             'username': "Nome de usuário",
+#             'email': 'E-mail',
+#             'first_name': 'Nome',
+#             'last_name': 'Sobrenome'
+#         }
+
+#     def __init__(self, *args, **kwargs):
+#         super(UserRegisterForm, self).__init__(*args, **kwargs)
+        
+#         for field_name, field in self.fields.items():
+#             field.widget.attrs.update({
+#                 'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-gray-100',
+#                 'placeholder': field.label,
+#             })
+
 class UserRegisterForm(UserCreationForm):
     password1 = forms.CharField(
         label="Senha",
         widget=forms.PasswordInput(attrs={"class": "w-full p-3 border rounded"}),
     )
+
     password2 = forms.CharField(
         label="Confirme sua senha",
         widget=forms.PasswordInput(attrs={"class": "w-full p-3 border rounded"}),
+    )
+
+    cpf = forms.CharField(
+        label="CPF",
+        max_length=14,
+        required=False,
+        widget=forms.TextInput(attrs={"class": "w-full p-3 border rounded", "placeholder": "XXX.XXX.XXX-XX"}),
     )
 
     class Meta:
@@ -36,12 +73,24 @@ class UserRegisterForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
-        
+
         for field_name, field in self.fields.items():
             field.widget.attrs.update({
                 'class': 'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-gray-100',
                 'placeholder': field.label,
             })
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+
+        cpf = self.cleaned_data.get('cpf')
+        if cpf:
+            cliente = Cliente.objects.create(user=user, cpf=cpf)
+
+        return user
+
 
 class EstablishmentRegisterForm(UserCreationForm):
     cnpj = forms.CharField(max_length=18, required=True, help_text="Digite um CNPJ válido.")
