@@ -19,19 +19,24 @@
 
         {% for estabelecimento in estabelecimentos %}
 
-            <a href="{% url 'itens_estabelecimento' estabelecimento.id_estabelecimento %}">
-                <div class="bg-gray-100 rounded-lg shadow-md text-center mb-4 p-4">
-                    <div class="text-lg lg:text-2xl font-bold font-sans text-gray-800 mb-4">{{estabelecimento.nome}}</div>
-                    <div class="flex justify-around mb-4">
-                        <div class="bg-gray-300 rounded-lg w-24 h-24 lg:w-36 lg:h-36"></div>
-                        <div class="bg-gray-300 rounded-lg w-24 h-24 lg:w-36 lg:h-36"></div>
-                        <div class="bg-gray-300 rounded-lg w-24 h-24 lg:w-36 lg:h-36"></div>
-                    </div>
-                    <a href="{% url 'itens_estabelecimento' estabelecimento.id_estabelecimento %}" class="bg-primary text-white font-bold font-sans py-2 px-4 rounded hover:bg-blue-600 mt-8">
-                        Fazer pedido
-                    </a>
+        <div class="bg-white rounded-lg shadow-md p-5 sm:p-10 md:p-14 lg:p-20 mb-10 flex sm:flex-row items-start space-y-6 sm:space-x-10 w-full max-w-4xl mx-auto">
+            {% if estabelecimento.imagem %}
+                <div class="w-[120px] h-[120px] sm:w-[200px] sm:h-[200px] rounded-lg flex-shrink-0 mr-10 sm:mr-2">
+                    <img src="{{ estabelecimento.imagem.url }}" alt="Logo da barraca" class="w-full h-full object-cover rounded-lg">
                 </div>
-            </a>
+            {% else %}
+                <div class="w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] bg-gray-300 rounded-lg flex-shrink-0"></div>
+            {% endif %}
+            <div class="flex-1 text-left">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-5">{{ estabelecimento.nome }}</h2>
+                <p class="text-base sm:text-lg text-gray-500 mb-4 sm:mb-6">
+                    {{ estabelecimento.descricao }}
+                </p>
+                <a href="{% url 'itens_estabelecimento' estabelecimento.id_estabelecimento %}" class="bg-primary text-white px-6 sm:px-10 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-bold hover:bg-blue-600 transition">
+                    Fazer pedido
+                </a>
+            </div>
+        </div>
 
         {% endfor %}
 

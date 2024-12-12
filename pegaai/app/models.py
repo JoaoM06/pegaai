@@ -1,11 +1,17 @@
 import uuid
+from django.contrib.auth.models import User
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
+
+
 class Estabelecimento(models.Model):
     usuario=models.ForeignKey(User,on_delete=models.CASCADE)
     id_estabelecimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="estabelecimento", null=True)
     nome = models.CharField(max_length=255)
     tipo = models.CharField(max_length=255)
     score = models.DecimalField(
@@ -14,7 +20,9 @@ class Estabelecimento(models.Model):
         validators=[
             MinValueValidator(0.00),
             MaxValueValidator(5.00)
-        ]
+        ],
+        null=True,
+        blank=True
     )
     cnpj = models.CharField(
         max_length=18,
@@ -22,6 +30,7 @@ class Estabelecimento(models.Model):
         validators=[MinLengthValidator(18)]
     )
     descricao = models.TextField(blank=True)
+    imagem = models.ImageField(upload_to='imgs/establishment/', null=True, blank=True)
 
     def __str__(self):
         return self.nome
@@ -46,20 +55,21 @@ class Itens(models.Model):
     def __str__(self):
         return self.nome_item
 
+
 class Cliente(models.Model):
     usuario=models.ForeignKey(User,on_delete=models.CASCADE)
     
     id_cliente = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cliente",null=True)
     cpf = models.CharField(
         max_length=14,
-        validators=[MinLengthValidator(14)]
+        validators=[MinLengthValidator(14)],
+        blank=True
     )
-    nome = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    dt_nasc = models.DateField()
 
     def __str__(self):
-        return self.nome
+        return self.user.username
+
 
 class ItemCliente(models.Model):
     id_item = models.ForeignKey(
@@ -91,3 +101,15 @@ class Referencia(models.Model):
 
     def __str__(self):
         return f"{self.id_cliente} - {self.id_item}"
+    
+class Pedido(models.Model):
+    id_pedido = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    estabelecimento = models.ForeignKey(Estabelecimento, on_delete=models.CASCADE)
+    data_pedido = models.DateTimeField(auto_now_add=True)
+    confirmado = models.BooleanField(default=False)
+
+class ItemPedido(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name="itens")
+    item = models.ForeignKey(Itens, on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField()

@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações da Conta</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <main class="bg-white flex justify-center items-center h-screen font-sans">
+        <div class="w-full max-w-lg bg-gray-100 p-8 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Configurações da Conta</h1>
+            
+            <div class="space-y-4">
+                <!-- Alterar Nome -->
+                <a href="#" class="block w-full bg-primary text-white font-bold py-3 rounded-md text-center hover:bg-blue-600">
+                    Alterar Nome
+                </a>
+                
+                <!-- Alterar E-mail -->
+                <a href="#" class="block w-full bg-primary text-white font-bold py-3 rounded-md text-center hover:bg-blue-600">
+                    Alterar E-mail
+                </a>
+                
+                <!-- Alterar Senha -->
+                <a href="#" class="block w-full bg-primary text-white font-bold py-3 rounded-md text-center hover:bg-blue-600">
+                    Alterar Senha
+                </a>
+                
+                <!-- Logout -->
+                <a href="{% url 'logout' %}" class="block w-full bg-red-500 text-white font-bold py-3 rounded-md text-center hover:bg-red-600">
+                    Sair da Conta
+                </a>
+            </div>
+        </div>
+    </main>
+
+    {% include 'footer.html' %}
+
+</body>
+</html>

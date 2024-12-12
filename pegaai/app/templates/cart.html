@@ -13,43 +13,65 @@
     {% include 'header.html' %}
 
     <main class="flex-grow pt-28 pb-32 px-4 md:px-8 mt-6 fade-in lg:mx-32">
+
+
+        {% if messages %}
+            <div class="m-5 space-y-4">
+                {% for message in messages %}
+                    <div class="bg-{{ message.tags|default:'green' }}-100 border border-{{ message.tags|default:'green' }}-400 text-{{ message.tags|default:'green' }}-700 px-4 py-3 rounded relative mb-4">
+                        <span class="block sm:inline">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if cart_items %}
         <div class="m-5 space-y-4">
-
+            {% for item in cart_items %}
             <div class="flex items-center bg-white p-4 rounded-lg shadow-md">
-                <div class="w-16 h-16 bg-gray-300 rounded-lg mr-4"></div>
+                <div class="w-16 h-16 bg-gray-300 rounded-lg mr-4">
+
+                    {% if item.id_item.imagem %}
+                    <img src="{{ item.id_item.imagem.url }}" alt="{{ item.id_item.nome_item }}" class="w-full h-full object-cover rounded-lg">
+                    {% endif %}
+                </div>
                 <div class="flex-1">
-                    <h2 class="text-base font-bold text-gray-800">Nome do Item</h2>
-                    <p class="text-sm text-gray-600">R$ 15,00</p>
+                    <h2 class="text-base font-bold text-gray-800">{{ item.id_item.nome_item }}</h2>
+                    <p class="text-sm text-gray-600">R$ {{ item.id_item.valor_item|floatformat:2 }}</p>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-lg">-</button>
-                    <span class="text-sm font-bold text-gray-800">1</span>
-                    <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-lg">+</button>
-                </div>
-            </div>
 
-            <div class="flex items-center bg-white p-4 rounded-lg shadow-md">
-                <div class="w-16 h-16 bg-gray-300 rounded-lg mr-4"></div>
-                <div class="flex-1">
-                    <h2 class="text-base font-bold text-gray-800">Outro Item</h2>
-                    <p class="text-sm text-gray-600">R$ 20,00</p>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-lg">-</button>
-                    <span class="text-sm font-bold text-gray-800">2</span>
-                    <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-lg">+</button>
+                    <form method="post" action="{% url 'remove_from_cart' item.id_item.id_item %}" class="inline-block">
+                        {% csrf_token %}
+                        <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-lg">-</button>
+                    </form>
+                    <span class="text-sm font-bold text-gray-800">{{ item.qtd }}</span>
+
+                    <form method="post" action="{% url 'add_cart_item' item.id_item.id_item %}" class="inline-block">
+                        {% csrf_token %}
+                        <button class="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-lg">+</button>
+                    </form>
                 </div>
             </div>
+            {% endfor %}
         </div>
 
         <div class="m-5 p-4 bg-white rounded-lg shadow-md">
             <div class="flex justify-between text-gray-800 font-bold mb-4">
                 <span>Total:</span>
-                <span>R$ 50,00</span>
+                <span>R$ {{ total|floatformat:2 }}</span>
             </div>
-            <button class="w-full bg-primary text-white py-2 rounded-lg font-bold text-sm hover:bg-blue-600">Finalizar Pedido</button>
+            <form method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <button class="w-full bg-primary text-white py-2 rounded-lg font-bold text-sm hover:bg-blue-600">Finalizar Pedido</button>
+            </form>
         </div>
-
+        {% else %}
+        <div class="text-center text-gray-600 mt-12">
+            <p>Seu carrinho está vazio.</p>
+            <a href="{% url 'home' %}" class="text-primary font-bold hover:underline">Voltar para os estabelecimentos</a>
+        </div>
+        {% endif %}
     </main>
 
     {% include 'footer.html' %}

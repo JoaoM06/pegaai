@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/scrollbar.css' %}">
+</head>
+<body class="bg-white">
+
+    {% include 'header.html' %}
+
+    <main class="bg-white pt-28 pb-32 px-4 md:px-8 mt-6 fade-in lg:mx-32">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Pedidos</h1>
+
+        {% for pedido in pedidos %}
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-800">
+                    Pedido de {{ pedido.cliente.user.username }} 
+                    <span class="text-sm text-gray-500 ml-2">
+                        {{ pedido.data_pedido|date:"d/m/Y H:i" }}
+                    </span>
+                </h3>
+            </div>
+
+            <ul class="space-y-2 text-gray-700">
+                {% for item in pedido.itens.all %}
+                <li class="flex justify-between border-b pb-2 last:border-b-0">
+                    <span>{{ item.item.nome_item }}</span>
+                    <span class="font-semibold">{{ item.quantidade }}x</span>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="flex justify-end mt-4">
+                <form method="post" action="{% url 'confirmar_pedido' pedido.id_pedido %}">
+                    {% csrf_token %}
+                    <button 
+                        type="submit" 
+                        class="bg-primary text-white px-6 py-2 rounded-lg font-bold 
+                               hover:bg-blue-600 transition duration-300 ease-in-out 
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 
+                               focus:ring-opacity-50"
+                    >
+                        Confirmar Pedido
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if not pedidos %}
+        <div class="text-center text-gray-600 mt-12">
+            <p class="text-lg">Nenhum pedido encontrado.</p>
+            <a href="{% url 'home' %}" class="text-primary font-bold hover:underline mt-4 inline-block">
+                Voltar para os estabelecimentos
+            </a>
+        </div>
+        {% endif %}
+    </main>
+
+    {% include 'footer.html' %}
+
+</body>
+</html>
