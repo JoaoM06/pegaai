@@ -11,5 +11,8 @@ urlpatterns = [
     path("pedidos", views.orders, name="orders"),
     path("orders", views.orders, name="orders"),
     path("perfil", views.profile, name="profile"),
-    path("profile", views.profile, name="profile")
+    path("profile", views.profile, name="profile"),
+    path("cart", views.cart, name="cart"),
+
+     path('estabelecimento/<uuid:id_estabelecimento>/itens/', views.itens_estabelecimento, name='itens_estabelecimento'),
 ]

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Barraca</title>
+    <title>{{estabelecimento.nome}}</title>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/animations.css' %}">
 </head>
@@ -17,41 +17,26 @@
         <section class="m-5 p-5 bg-gray-100 rounded-lg shadow-lg flex items-center gap-4">
             <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
             <div>
-                <h1 class="text-lg font-bold text-gray-800">Nome da barraca</h1>
-                <p class="text-sm text-gray-600">Informações sobre a barraca</p>
+                <h1 class="text-lg font-bold text-gray-800">{{estabelecimento.nome}}</h1>
+                <p class="text-sm text-gray-600">{{estabelecimento.descricao}}</p>
                 <p class="text-sm text-gray-600">Agendamento: 20-30 minutos</p>
             </div>
         </section>
 
-        <div class="m-5 text-lg font-bold text-gray-800">Categoria</div>
+        <div class="m-5 text-lg font-bold text-gray-800">Itens</div>
 
         <div class="m-5 flex flex-col gap-4">
-            <div class="flex items-center bg-gray-100 p-4 rounded-lg shadow-lg">
-                <div class="w-12 h-12 bg-gray-300 rounded-lg mr-4"></div>
-                <div class="flex-1">
-                    <h2 class="text-base font-bold text-gray-800">Nome do item</h2>
-                    <p class="text-sm text-gray-600">Informações do pedido</p>
-                </div>
-                <button class="bg-primary text-white rounded-md py-2 px-4 text-sm font-bold">Adicionar ao carrinho</button>
-            </div>
 
-            <div class="flex items-center bg-gray-100 p-4 rounded-lg shadow-lg">
-                <div class="w-12 h-12 bg-gray-300 rounded-lg mr-4"></div>
-                <div class="flex-1">
-                    <h2 class="text-base font-bold text-gray-800">Nome do item</h2>
-                    <p class="text-sm text-gray-600">Informações do pedido</p>
+            {% for item in itens %}
+                <div class="flex items-center bg-gray-100 p-4 rounded-lg shadow-lg">
+                    <div class="w-12 h-12 bg-gray-300 rounded-lg mr-4"></div>
+                    <div class="flex-1">
+                        <h2 class="text-base font-bold text-gray-800">{{item.nome_item}}</h2>
+                        <p class="text-sm text-gray-600">{{item.descricao}}</p>
+                    </div>
+                    <button class="bg-primary text-white rounded-md py-2 px-4 text-sm font-bold">Adicionar ao carrinho</button>
                 </div>
-                <button class="bg-primary text-white rounded-md py-2 px-4 text-sm font-bold">Adicionar ao carrinho</button>
-            </div>
-
-            <div class="flex items-center bg-gray-100 p-4 rounded-lg shadow-lg">
-                <div class="w-12 h-12 bg-gray-300 rounded-lg mr-4"></div>
-                <div class="flex-1">
-                    <h2 class="text-base font-bold text-gray-800">Nome do item</h2>
-                    <p class="text-sm text-gray-600">Informações do pedido</p>
-                </div>
-                <button class="bg-primary text-white rounded-md py-2 px-4 text-sm font-bold">Adicionar ao carrinho</button>
-            </div>
+            {% endfor %}
         </div>
     </main>
 
