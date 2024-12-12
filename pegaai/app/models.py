@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 
 
 class Estabelecimento(models.Model):
-    usuario=models.ForeignKey(User,on_delete=models.CASCADE)
     id_estabelecimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="estabelecimento", null=True)
     nome = models.CharField(max_length=255)
@@ -57,8 +56,6 @@ class Itens(models.Model):
 
 
 class Cliente(models.Model):
-    usuario=models.ForeignKey(User,on_delete=models.CASCADE)
-    
     id_cliente = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cliente",null=True)
     cpf = models.CharField(
@@ -92,15 +89,6 @@ class ItemCliente(models.Model):
         related_name='item_clientes',
         verbose_name='id_estabelecimento'
     )
-
-
-class Referencia(models.Model):
-    usuario= models.ForeignKey(User,
-                               on_delete=models.CASCADE)
-
-
-    def __str__(self):
-        return f"{self.id_cliente} - {self.id_item}"
     
 class Pedido(models.Model):
     id_pedido = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
