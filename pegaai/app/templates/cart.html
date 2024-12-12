@@ -61,7 +61,7 @@
                 <span>Total:</span>
                 <span>R$ {{ total|floatformat:2 }}</span>
             </div>
-            <form method="post">
+            <form method="post" action="{% url 'checkout' %}">
                 {% csrf_token %}
                 <button class="w-full bg-primary text-white py-2 rounded-lg font-bold text-sm hover:bg-blue-600">Finalizar Pedido</button>
             </form>

@@ -42,7 +42,12 @@ urlpatterns = [
     path('estabelecimento/<uuid:id_estabelecimento>/itens/', views.itens_estabelecimento, name='itens_estabelecimento'),
 
     path('cart/remove/<uuid:id_item>/', views.remove_from_cart, name='remove_from_cart'),
-    path('cart/add_item/<uuid:id_item>/', views.add_cart_item, name='add_cart_item')
+    path('cart/add_item/<uuid:id_item>/', views.add_cart_item, name='add_cart_item'),
+
+    path('pedidos-estabelecimento/', views.pedidos_estabelecimento, name='pedidos_estabelecimento'),
+    path('confirmar-pedido/<uuid:pedido_id>/', views.confirmar_pedido, name='confirmar_pedido'),
+
+    path('checkout/', views.checkout, name='checkout'),
 ]
 
 

@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 
 class Estabelecimento(models.Model):
     id_estabelecimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="estabelecimento")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="estabelecimento", null=True)
     nome = models.CharField(max_length=255)
     tipo = models.CharField(max_length=255)
     score = models.DecimalField(
@@ -20,7 +20,8 @@ class Estabelecimento(models.Model):
             MinValueValidator(0.00),
             MaxValueValidator(5.00)
         ],
-        null=True
+        null=True,
+        blank=True
     )
     cnpj = models.CharField(
         max_length=18,
@@ -91,3 +92,15 @@ class ItemCliente(models.Model):
 
     def __str__(self):
         return f"{self.id_cliente} - {self.id_item}"
+    
+class Pedido(models.Model):
+    id_pedido = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    estabelecimento = models.ForeignKey(Estabelecimento, on_delete=models.CASCADE)
+    data_pedido = models.DateTimeField(auto_now_add=True)
+    confirmado = models.BooleanField(default=False)
+
+class ItemPedido(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name="itens")
+    item = models.ForeignKey(Itens, on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField()

@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Estabelecimento
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from .forms import UserRegisterForm, EstablishmentRegisterForm, EstablishmentAddForm
 from django.http import JsonResponse
-from .models import Itens, ItemCliente,Cliente
+from .models import Itens, ItemCliente, Cliente, Estabelecimento, Pedido, ItemPedido
 from django.utils.timezone import now
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -55,8 +54,8 @@ def account_settings(request):
 @login_required
 def itens_estabelecimento(request, id_estabelecimento):
     estabelecimento = get_object_or_404(Estabelecimento, id_estabelecimento=id_estabelecimento)
-    itens = estabelecimento.itens.all()  # Relacionamento com os itens
-    return render(request, 'establishment.html', {'estabelecimento': estabelecimento, 'itens': itens})
+    itens = estabelecimento.itens.all()
+    return render(request, 'menu.html', {'estabelecimento': estabelecimento, 'itens': itens})
 
 @user_passes_test(not_logged, login_url='/')
 def register_user(request):
@@ -122,7 +121,7 @@ def add_to_cart(request, id_item):
     try:
         cliente = request.user.cliente
     except Cliente.DoesNotExist:
-        return render(request, 'establishment.html', {
+        return render(request, 'menu.html', {
             'error_message': 'Usuário não possui um perfil de cliente associado.'
         })
 
@@ -134,7 +133,7 @@ def add_to_cart(request, id_item):
 
     if estabelecimentos and estabelecimentos[0] != estabelecimento.id_estabelecimento:
         itens = Itens.objects.filter(id_estabelecimento=estabelecimento)
-        return render(request, 'establishment.html', {
+        return render(request, 'menu.html', {
             'itens': itens,
             'error_message': 'Você só pode adicionar itens de um único estabelecimento ao carrinho.'
         })
@@ -142,7 +141,7 @@ def add_to_cart(request, id_item):
     quantidade = int(request.POST.get('quantidade', 1))
     if item.estoque < quantidade:
         itens = Itens.objects.filter(id_estabelecimento=estabelecimento)
-        return render(request, 'establishment.html', {
+        return render(request, 'menu.html', {
             'itens': itens,
             'error_message': 'Estoque insuficiente para o item selecionado.'
         })
@@ -161,7 +160,7 @@ def add_to_cart(request, id_item):
     item.save()
 
     itens = Itens.objects.filter(id_estabelecimento=estabelecimento)
-    return render(request, 'establishment.html', {
+    return render(request, 'menu.html', {
         'itens': itens,
         'success_message': 'Item adicionado ao carrinho com sucesso!'
     })
@@ -182,7 +181,7 @@ def add_cart_item(request, id_item):
         cliente = request.user.cliente
     except Cliente.DoesNotExist:
         messages.error(request, 'Usuário não possui um perfil de cliente associado.')
-        return redirect('establishment')
+        return redirect('itens_estabelecimento')
 
     item = get_object_or_404(Itens, pk=id_item)
     cart_item, created = ItemCliente.objects.get_or_create(id_cliente=cliente, id_item=item)
@@ -204,7 +203,7 @@ def remove_from_cart(request, id_item):
         cliente = request.user.cliente
     except Cliente.DoesNotExist:
         messages.error(request, 'Usuário não possui um perfil de cliente associado.')
-        return redirect('establishment')
+        return redirect('itens_estabelecimento')
 
     cart_item = ItemCliente.objects.filter(id_cliente=cliente, id_item_id=id_item).first()
 
@@ -220,3 +219,60 @@ def remove_from_cart(request, id_item):
         cart_item.delete()
 
     return redirect('view_cart')
+
+@login_required
+def checkout(request):
+    try:
+        cliente = request.user.cliente
+    except Cliente.DoesNotExist:
+        messages.error(request, "Usuário não possui um perfil de cliente associado.")
+        return redirect("cart")
+    
+    # Obter itens no carrinho
+    itens_carrinho = ItemCliente.objects.filter(id_cliente=cliente)
+    if not itens_carrinho.exists():
+        messages.error(request, "Seu carrinho está vazio.")
+        return redirect("cart")
+    
+    # Criar o pedido
+    estabelecimento = itens_carrinho.first().id_estabelecimento
+    pedido = Pedido.objects.create(cliente=cliente, estabelecimento=estabelecimento)
+
+    # Criar itens do pedido e limpar o carrinho
+    for item in itens_carrinho:
+        ItemPedido.objects.create(
+            pedido=pedido,
+            item=item.id_item,
+            quantidade=item.qtd
+        )
+        item.delete()
+
+    messages.success(request, "Pedido realizado com sucesso!")
+    return redirect("view_cart")
+
+@login_required
+def pedidos_estabelecimento(request):
+    try:
+        estabelecimento = request.user.estabelecimento
+    except Estabelecimento.DoesNotExist:
+        messages.error(request, "Acesso negado.")
+        return redirect("home")
+
+    pedidos = Pedido.objects.filter(estabelecimento=estabelecimento, confirmado=False)
+
+    return render(request, "establishment_orders.html", {"pedidos": pedidos})
+
+@login_required
+def confirmar_pedido(request, id_pedido):
+    try:
+        estabelecimento = request.user.estabelecimento
+    except Estabelecimento.DoesNotExist:
+        messages.error(request, "Acesso negado.")
+        return redirect("home")
+
+    pedido = get_object_or_404(Pedido, id_pedido=id_pedido, estabelecimento=estabelecimento)
+    pedido.confirmado = True
+    pedido.save()
+
+    messages.success(request, "Pedido confirmado com sucesso!")
+    return redirect("pedidos_estabelecimento")
