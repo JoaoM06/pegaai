@@ -74,19 +74,18 @@ def register_email(request):
         form = UserRegisterForm()
     return render(request, 'register_email.html', {'form': form})
 
-@user_passes_test(not_logged, login_url='/')
+# @user_passes_test(not_logged, login_url='/')
 def register_establishment(request):
-    form = EstablishmentRegisterForm()
-    if request.method == 'POST' and request.POST:
-        form = EstablishmentRegisterForm(request.POST)
+    if request.method == "POST":
+        form = EstablishmentRegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            group = Group.objects.get(name='Estabelecimento')
-            user.groups.add(group)
-            return redirect('/login')
+            form.save()
+            messages.success(request, "Estabelecimento registrado com sucesso!")
+            return redirect("home")
     else:
         form = EstablishmentRegisterForm()
-    return render(request, 'register_establishment.html', {'form': form})
+
+    return render(request, "register_establishment.html", {"form": form})
 
 @user_passes_test(not_logged, login_url='/')
 def login_user(request):

@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 class Estabelecimento(models.Model):
     id_estabelecimento = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="estabelecimento")
     nome = models.CharField(max_length=255)
     tipo = models.CharField(max_length=255)
     score = models.DecimalField(
@@ -18,7 +19,8 @@ class Estabelecimento(models.Model):
         validators=[
             MinValueValidator(0.00),
             MaxValueValidator(5.00)
-        ]
+        ],
+        null=True
     )
     cnpj = models.CharField(
         max_length=18,
