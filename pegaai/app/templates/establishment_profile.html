@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <main class="flex-grow pt-28 pb-32 fade-in lg:mx-32">
+        <section class="text-center p-6 mt-4">
+            <div class="w-24 h-24 bg-gray-300 rounded-full mx-auto"></div>
+            <div class="text-lg font-bold mt-4 text-gray-800">Olá, {{ user.username }}</div>
+        </section>
+
+        <div class="m-6 bg-gray-50 rounded-lg shadow-md divide-y divide-gray-200">
+            <a href="{% url 'payment_info' %}" class="flex items-center p-4 text-gray-700 cursor-pointer">
+                <span class="text-lg font-medium">Informações de Pagamento</span>
+                <span class="ml-auto text-2xl">➔</span>
+            </a>
+            <a href="{% url 'privacity' %}" class="flex items-center p-4 text-gray-700 cursor-pointer">
+                <span class="text-lg font-medium">Privacidade e Segurança</span>
+                <span class="ml-auto text-2xl">➔</span>
+            </a>
+            <a href="{% url 'account_settings' %}" class="flex items-center p-4 text-gray-700 cursor-pointer">
+                <span class="text-lg font-medium">Configurações da Conta</span>
+                <span class="ml-auto text-2xl">➔</span>
+            </a>
+    </main>
+
+    {% include 'establishment_footer.html' %}
+</body>
+</html>
+
