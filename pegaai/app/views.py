@@ -25,10 +25,6 @@ def home(request):
 def menu(request):
     return render(request, "menu.html")
 
-# @login_required
-# def orders(request):
-#     return render(request, "orders.html")
-
 @login_required
 def profile(request):
     return render(request, "profile.html")
@@ -36,10 +32,6 @@ def profile(request):
 @login_required
 def cart(request):
     return render(request, "cart.html")
-
-# @login_required
-# def establishment(request):
-#     return render(request, "establishment.html")
 
 @login_required
 def establishment_profile(request):
@@ -78,7 +70,7 @@ def register_email(request):
         form = UserRegisterForm()
     return render(request, 'register_email.html', {'form': form})
 
-# @user_passes_test(not_logged, login_url='/')
+@user_passes_test(not_logged, login_url='/')
 def register_establishment(request):
     if request.method == "POST":
         form = EstablishmentRegisterForm(request.POST, request.FILES)
@@ -103,7 +95,6 @@ def login_user(request):
     else:
         form = AuthenticationForm()
     return render(request,'login.html', {'form': form})
-
 
 @login_required
 def user_logout(request):
@@ -170,7 +161,6 @@ def add_to_cart(request, id_item):
         'success_message': 'Item adicionado ao carrinho com sucesso!'
     })
 
-
 @login_required
 def view_cart(request):
     cliente = request.user.cliente
@@ -178,7 +168,6 @@ def view_cart(request):
     
     total = sum(item.qtd * item.id_item.valor_item for item in cart_items)
     return render(request, 'cart.html', {'cart_items': cart_items, 'total': total})
-
 
 @login_required
 def add_cart_item(request, id_item):

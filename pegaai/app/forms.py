@@ -143,21 +143,6 @@ class EstablishmentRegisterForm(UserCreationForm):
                 'placeholder': field.label,
             })
 
-    # def save(self, commit=True):
-    #     user = super().save(commit=False)
-    #     if commit:
-    #         user.save()
-
-    #     estabelecimento = Estabelecimento.objects.create(
-    #         user=user,
-    #         cnpj=self.cleaned_data.get('cnpj'),
-    #         nome=self.cleaned_data.get('nome'),
-    #         tipo=self.cleaned_data.get('tipo'),
-    #         descricao=self.cleaned_data.get('descricao'),
-    #         imagem=self.cleaned_data.get('imagem'),
-    #     )
-
-    #     return user
     def save(self, commit=True):
         user = super().save(commit=False)
         if commit:
