@@ -1,47 +1,65 @@
 {% load static %}
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedidos Recebidos</title>
-    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <title>Home - {{ estabelecimento.nome }}</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/scrollbar.css' %}">
 </head>
 <body class="bg-gray-100">
 
     {% include 'header.html' %}
 
-    <main class="flex-grow pt-28 pb-32 fade-in lg:mx-32">
-        <div class="space-y-4">
-            <div class="bg-white shadow-md rounded-lg p-4">
-                <h2 class="text-lg font-bold text-gray-800">Pedido #1</h2>
-                <p class="text-gray-600">Cliente: João Silva</p>
-                <p class="text-gray-600">Descrição: 2 hambúrgueres e 1 refrigerante</p>
-                <button class="mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark w-full">
-                    Marcar como Entregue
-                </button>
-            </div>
+    <main class="bg-gray-100 pt-28 pb-32 px-4 md:px-8 lg:mx-32">
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/3 bg-gray-200 flex items-center justify-center">
+                    {% if estabelecimento.imagem %}
+                    <img 
+                        src="{{ estabelecimento.imagem.url }}" 
+                        alt="Imagem de {{ estabelecimento.nome }}" 
+                        class="w-full h-full object-cover">
+                    {% else %}
+                    <div class="w-full h-full flex items-center justify-center bg-gray-300 text-gray-500">
+                        <span class="text-sm">Sem imagem</span>
+                    </div>
+                    {% endif %}
+                </div>
 
-            <div class="bg-white shadow-md rounded-lg p-4">
-                <h2 class="text-lg font-bold text-gray-800">Pedido #2</h2>
-                <p class="text-gray-600">Cliente: Maria Oliveira</p>
-                <p class="text-gray-600">Descrição: 1 pizza de calabresa</p>
-                <button class="mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark w-full">
-                    Marcar como Entregue
-                </button>
-            </div>
+                <div class="w-full md:w-2/3 p-6 space-y-4">
+                    <h1 class="text-3xl font-bold text-gray-800">{{ estabelecimento.nome }}</h1>
+                    <p class="text-sm text-gray-500">CNPJ: {{ estabelecimento.cnpj }}</p>
 
-            <div class="bg-white shadow-md rounded-lg p-4">
-                <h2 class="text-lg font-bold text-gray-800">Pedido #3</h2>
-                <p class="text-gray-600">Cliente: Pedro Santos</p>
-                <p class="text-gray-600">Descrição: 3 pastéis de carne</p>
-                <button class="mt-4 bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark w-full">
-                    Marcar como Entregue
-                </button>
+                    <div class="flex items-center space-x-2 text-yellow-500">
+                        <span class="text-lg font-semibold">{{ estabelecimento.score|default:"N/A" }}</span>
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                        </svg>
+                    </div>
+
+                    <p class="text-gray-700"><strong>Tipo:</strong> {{ estabelecimento.tipo }}</p>
+                    <p class="text-gray-700 whitespace-pre-line">{{ estabelecimento.descricao }}</p>
+
+                    <div class="mt-6">
+                        <a 
+                            href="{% url 'pedidos_estabelecimento' %}"
+                            class="bg-primary text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-600 
+                                   transition duration-300 ease-in-out focus:outline-none focus:ring-2 
+                                   focus:ring-blue-500 focus:ring-opacity-50"
+                        >
+                            Ver Pedidos
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    {% include 'footer.html' %}
+    {% include 'establishment_footer.html' %}
+
 </body>
 </html>

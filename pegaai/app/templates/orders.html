@@ -1,46 +1,78 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Pedidos</title>
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <title>Pedidos</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-50 font-sans">
 
     {% include 'header.html' %}
 
-    <main class="flex-grow pt-28 pb-32 fade-in lg:mx-32">
-        <div class="mx-5 mb-4 p-4 bg-gray-100 rounded-lg shadow-md mt-2">
-            <div class="text-lg font-bold text-gray-800">Seu último pedido</div>
-            <div class="text-sm text-gray-600 mt-1">Informações do pedido</div>
-            <button class="bg-primary text-white font-bold text-sm rounded px-4 py-2 mt-2 hover:bg-blue-600">Refazer pedido</button>
+    <main class="flex-grow pt-28 pb-32 px-4 md:px-8 mt-6 fade-in lg:mx-32">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Pedidos</h1>
+
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-700 mb-4">Pedidos Confirmados</h2>
+            {% if pedidos_confirmados %}
+            {% for pedido in pedidos_confirmados %}
+                <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                    <div class="flex justify-between items-center">
+                        <p><strong>Pedido #{{ pedido.id }}</strong></p>
+                        <p class="text-sm text-gray-600">{{ pedido.data_hora|date:"d/m/Y H:i" }}</p>
+                    </div>
+                    <p>Estabelecimento: <strong>{{ pedido.estabelecimento.nome }}</strong></p>
+                    <p>Itens:</p>
+                    <ul class="list-disc pl-6">
+                        {% for item in pedido.itens.all %}
+                        <li>{{ item.item.nome_item }} ({{ item.quantidade }})</li>
+                        {% endfor %}
+                    </ul>
+                    {% if not pedido.concluido_cliente %}
+                    <form action="{% url 'concluir_pedido' pedido.id_pedido %}" method="post" class="mt-4">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            Marcar como concluído
+                        </button>
+                    </form>
+                    {% else %}
+                        <p class="text-green-700 font-bold mt-4">Pedido concluído pelo cliente</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-gray-600">Nenhum pedido confirmado até o momento.</p>
+            {% endif %}
         </div>
 
-        <div class="m-5 text-2xl font-bold text-gray-800">Meus Pedidos</div>
-
-        <div class="mx-5 mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
-            <div class="text-lg font-bold text-gray-800">Pedido 1</div>
-            <div class="text-sm text-gray-600 mt-1">Informações do pedido</div>
-            <div class="text-yellow-500 text-lg mt-1">★★★★★</div>
-        </div>
-
-        <div class="mx-5 mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
-            <div class="text-lg font-bold text-gray-800">Pedido 2</div>
-            <div class="text-sm text-gray-600 mt-1">Informações do pedido</div>
-            <div class="text-yellow-500 text-lg mt-1">★★★★☆</div>
-        </div>
-
-        <div class="mx-5 mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
-            <div class="text-lg font-bold text-gray-800">Pedido 3</div>
-            <div class="text-sm text-gray-600 mt-1">Informações do pedido</div>
-            <div class="text-yellow-500 text-lg mt-1">★★★☆☆</div>
+        <!-- Pedidos Pendentes -->
+        <div>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Pedidos Pendentes</h2>
+            {% if pedidos_pendentes %}
+                {% for pedido in pedidos_pendentes %}
+                <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                    <div class="flex justify-between items-center">
+                        <p><strong>Pedido #{{ pedido.id }}</strong></p>
+                        <p class="text-sm text-gray-600">{{ pedido.data_hora|date:"d/m/Y H:i" }}</p>
+                    </div>
+                    <p>Estabelecimento: <strong>{{ pedido.estabelecimento.nome }}</strong></p>
+                    <p>Itens:</p>
+                    <ul class="list-disc pl-6">
+                        {% for item in pedido.itens.all %}
+                        <li>{{ item.item.nome_item }} ({{ item.quantidade }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p class="text-gray-600">Nenhum pedido pendente.</p>
+            {% endif %}
         </div>
     </main>
 
     {% include 'footer.html' %}
+
 </body>
 </html>

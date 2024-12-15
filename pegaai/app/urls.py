@@ -7,8 +7,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("", views.home, name="home"),
     path("menu", views.menu),
-    path("pedidos", views.orders, name="orders"),
-    path("orders", views.orders, name="orders"),
+    path("pedidos", views.listar_pedidos, name="orders"),
+    path("orders", views.listar_pedidos, name="orders"),
     path("perfil", views.profile, name="profile"),
     path("profile", views.profile, name="profile"),
     path("cart", views.cart, name="cart"),
@@ -16,8 +16,6 @@ urlpatterns = [
     path('index/', views.home, name='home'),
     path('account_settings/', views.account_settings, name='account_settings'),
     path('configuracoes-conta/', views.account_settings, name='account_settings'),
-    path('establishment/', views.establishment, name='establishment'),
-    path('estabelecimento/', views.establishment, name='establishment'),
     path('payment-info/', views.payment_info, name='payment_info'),
     path('informacoes-estabelecimento/', views.payment_info, name='payment_info'),
     path('privacity/', views.privacity, name='privacity'),
@@ -45,9 +43,14 @@ urlpatterns = [
     path('cart/add_item/<uuid:id_item>/', views.add_cart_item, name='add_cart_item'),
 
     path('pedidos-estabelecimento/', views.pedidos_estabelecimento, name='pedidos_estabelecimento'),
-    path('confirmar-pedido/<uuid:pedido_id>/', views.confirmar_pedido, name='confirmar_pedido'),
+    path('confirmar-pedido/<uuid:id_pedido>/', views.confirmar_pedido, name='confirmar_pedido'),
 
     path('checkout/', views.checkout, name='checkout'),
+    path("pedidos/concluir/<uuid:id_pedido>/", views.concluir_pedido, name="concluir_pedido"),
+
+    path("home-estabelecimento/", views.home_estabelecimento, name="home_estabelecimento"),
+
+    path("perfil-estabelecimento/", views.establishment_profile, name="establishment_profile"),
 ]
 
 

@@ -96,6 +96,7 @@ class Pedido(models.Model):
     estabelecimento = models.ForeignKey(Estabelecimento, on_delete=models.CASCADE)
     data_pedido = models.DateTimeField(auto_now_add=True)
     confirmado = models.BooleanField(default=False)
+    concluido = models.BooleanField(default=False)
 
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name="itens")

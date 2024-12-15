@@ -25,9 +25,9 @@ def home(request):
 def menu(request):
     return render(request, "menu.html")
 
-@login_required
-def orders(request):
-    return render(request, "orders.html")
+# @login_required
+# def orders(request):
+#     return render(request, "orders.html")
 
 @login_required
 def profile(request):
@@ -37,9 +37,14 @@ def profile(request):
 def cart(request):
     return render(request, "cart.html")
 
+# @login_required
+# def establishment(request):
+#     return render(request, "establishment.html")
+
 @login_required
-def establishment(request):
-    return render(request, "establishment.html")
+def establishment_profile(request):
+    return render(request, "establishment_profile.html")
+
 
 def payment_info(request):
     return render(request, "payment_info.html")
@@ -227,18 +232,15 @@ def checkout(request):
     except Cliente.DoesNotExist:
         messages.error(request, "Usuário não possui um perfil de cliente associado.")
         return redirect("cart")
-    
-    # Obter itens no carrinho
+
     itens_carrinho = ItemCliente.objects.filter(id_cliente=cliente)
     if not itens_carrinho.exists():
         messages.error(request, "Seu carrinho está vazio.")
         return redirect("cart")
     
-    # Criar o pedido
     estabelecimento = itens_carrinho.first().id_estabelecimento
     pedido = Pedido.objects.create(cliente=cliente, estabelecimento=estabelecimento)
 
-    # Criar itens do pedido e limpar o carrinho
     for item in itens_carrinho:
         ItemPedido.objects.create(
             pedido=pedido,
@@ -259,8 +261,9 @@ def pedidos_estabelecimento(request):
         return redirect("home")
 
     pedidos = Pedido.objects.filter(estabelecimento=estabelecimento, confirmado=False)
+    pedidos_andamento = Pedido.objects.filter(estabelecimento=estabelecimento, confirmado=True, concluido=False)
 
-    return render(request, "establishment_orders.html", {"pedidos": pedidos})
+    return render(request, "establishment_orders.html", {"pedidos": pedidos, "pedidos_andamento": pedidos_andamento})
 
 @login_required
 def confirmar_pedido(request, id_pedido):
@@ -276,3 +279,43 @@ def confirmar_pedido(request, id_pedido):
 
     messages.success(request, "Pedido confirmado com sucesso!")
     return redirect("pedidos_estabelecimento")
+
+@login_required
+def listar_pedidos(request):
+    try:
+        cliente = request.user.cliente
+    except Cliente.DoesNotExist:
+        messages.error(request, "Usuário não possui um perfil de cliente associado.")
+        return redirect("home")
+    
+    pedidos_confirmados = Pedido.objects.filter(cliente=cliente, confirmado=True, concluido=False).order_by("-data_pedido")
+    pedidos_pendentes = Pedido.objects.filter(cliente=cliente, confirmado=False).order_by("-data_pedido")
+    
+    return render(request, "orders.html", {
+        "pedidos_confirmados": pedidos_confirmados,
+        "pedidos_pendentes": pedidos_pendentes,
+    })
+
+@login_required
+def concluir_pedido(request, id_pedido):
+    pedido = get_object_or_404(Pedido, id_pedido=id_pedido)
+
+    if pedido.cliente.user != request.user:
+        messages.error(request, "Você não tem permissão para concluir este pedido.")
+        return redirect("orders")
+
+    pedido.concluido = True
+    pedido.save()
+
+    messages.success(request, "Pedido concluído com sucesso!")
+    return redirect("orders")
+
+@login_required
+def home_estabelecimento(request):
+    try:
+        estabelecimento = request.user.estabelecimento
+    except Estabelecimento.DoesNotExist:
+        messages.error(request, "Você não tem permissão para acessar esta página.")
+        return redirect("home")
+
+    return render(request, "establishment.html", {"estabelecimento": estabelecimento})
